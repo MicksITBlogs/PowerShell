@@ -42,12 +42,39 @@ param
 	[switch]
 	$OutputFile,
 	[string]
-	$TextFileLocation,
+	$TextFileLocation = '\\drfs1\DesktopApplications\ProductionApplications\Waller\MappedDrivesReport\Reports',
 	[string]
-	$UNCPathExclusionsFile,
+	$UNCPathExclusionsFile = "\\drfs1\DesktopApplications\ProductionApplications\Waller\MappedDrivesReport\UNCPathExclusions.txt",
 	[switch]
 	$SCCMReporting
 )
+
+function Get-CurrentDate {
+<#
+	.SYNOPSIS  
+		Get the current date and return formatted value  
+
+	.DESCRIPTION  
+		Return the current date in the following format: mm-dd-yyyy  
+
+	.NOTES  
+		Additional information about the function.  
+#>
+	
+	[CmdletBinding()][OutputType([string])]
+	param ()
+
+	$CurrentDate = Get-Date
+	$CurrentDate = $CurrentDate.ToShortDateString()
+	$CurrentDate = $CurrentDate -replace "/", "-"
+	If ($CurrentDate[2] -ne "-") {
+		$CurrentDate = $CurrentDate.Insert(0, "0")
+	}
+	If ($CurrentDate[5] -ne "-") {
+		$CurrentDate = $CurrentDate.Insert(3, "0")
+	}
+	Return $CurrentDate
+}
 
 function Get-MappedDrives {
 <#
@@ -90,9 +117,10 @@ function Get-MappedDrives {
 			$DrivePath = (Get-ItemProperty -Path REGISTRY::$MappedDrive | select RemotePath).RemotePath
 			If ($DrivePath -notin $UNCExclusions) {
 				$Drives = New-Object System.Management.Automation.PSObject
+				$Drives | Add-Member -MemberType NoteProperty -Name ComputerName -Value $env:COMPUTERNAME
 				$Drives | Add-Member -MemberType NoteProperty -Name Username -Value $Username
-				$Drives | Add-Member -MemberType NoteProperty -Name Drive -Value $DriveLetter
-				$Drives | Add-Member -MemberType NoteProperty -Name Path -Value $DrivePath
+				$Drives | Add-Member -MemberType NoteProperty -Name DriveLetter -Value $DriveLetter
+				$Drives | Add-Member -MemberType NoteProperty -Name DrivePath -Value $DrivePath
 				$UserMappedDrives += $Drives
 			}
 		}
@@ -144,25 +172,50 @@ function Invoke-SCCMHardwareInventory {
 
 function New-WMIClass {
 	[CmdletBinding()]
-	param ()
+	param
+	(
+		[ValidateNotNullOrEmpty()][string]
+		$Class
+	)
 	
-	$WMITest = Get-WmiObject MappedDrives -ErrorAction SilentlyContinue
+	$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
 	If ($WMITest -ne $null) {
-		Remove-WmiObject MappedDrives
+		$Output = "Deleting " + $WMITest.__CLASS[0] + " WMI class....."
+		Remove-WmiObject $Class
+		$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
+		If ($WMITest -eq $null) {
+			$Output += "success"
+		} else {
+			$Output += "Failed"
+			Exit 1
+		}
+		Write-Output $Output
 	}
+	$Output = "Creating " + $Class + " WMI class....."
 	$newClass = New-Object System.Management.ManagementClass("root\cimv2", [String]::Empty, $null);
-	$newClass["__CLASS"] = "MappedDrives";
+	$newClass["__CLASS"] = $Class;
 	$newClass.Qualifiers.Add("Static", $true)
-	$newClass.Properties.Add("Letter", [System.Management.CimType]::String, $false)
-	$newClass.Properties["Letter"].Qualifiers.Add("key", $true)
-	$newClass.Properties["Letter"].Qualifiers.Add("read", $true)
-	$newClass.Properties.Add("Path", [System.Management.CimType]::String, $false)
-	$newClass.Properties["Path"].Qualifiers.Add("key", $true)
-	$newClass.Properties["Path"].Qualifiers.Add("read", $true)
-	$newClass.Properties.Add("user", [System.Management.CimType]::String, $false)
-	$newClass.Properties["user"].Qualifiers.Add("key", $true)
-	$newClass.Properties["user"].Qualifiers.Add("read", $true)
+	$newClass.Properties.Add("ComputerName", [System.Management.CimType]::String, $false)
+	$newClass.Properties["ComputerName"].Qualifiers.Add("key", $true)
+	$newClass.Properties["ComputerName"].Qualifiers.Add("read", $true)
+	$newClass.Properties.Add("DriveLetter", [System.Management.CimType]::String, $false)
+	$newClass.Properties["DriveLetter"].Qualifiers.Add("key", $false)
+	$newClass.Properties["DriveLetter"].Qualifiers.Add("read", $true)
+	$newClass.Properties.Add("DrivePath", [System.Management.CimType]::String, $false)
+	$newClass.Properties["DrivePath"].Qualifiers.Add("key", $false)
+	$newClass.Properties["DrivePath"].Qualifiers.Add("read", $true)
+	$newClass.Properties.Add("Username", [System.Management.CimType]::String, $false)
+	$newClass.Properties["Username"].Qualifiers.Add("key", $false)
+	$newClass.Properties["Username"].Qualifiers.Add("read", $true)
 	$newClass.Put() | Out-Null
+	$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
+	If ($WMITest -eq $null) {
+		$Output += "success"
+	} else {
+		$Output += "Failed"
+		Exit 1
+	}
+	Write-Output $Output
 }
 
 function New-WMIInstance {
@@ -176,6 +229,9 @@ function New-WMIInstance {
 	.PARAMETER MappedDrives
 		List of mapped drives
 	
+	.PARAMETER Class
+		A description of the Class parameter.
+	
 	.EXAMPLE
 		PS C:\> New-WMIInstance
 	
@@ -187,18 +243,46 @@ function New-WMIInstance {
 	param
 	(
 		[ValidateNotNullOrEmpty()][array]
-		$MappedDrives
+		$MappedDrives,
+		[string]
+		$Class
 	)
 	
 	foreach ($MappedDrive in $MappedDrives) {
-		Set-WmiInstance -Class MappedDrives -Arguments @{ Letter = $MappedDrive.Drive; Path = $MappedDrive.Path; User=$MappedDrive.Username} | Out-Null
+		Set-WmiInstance -Class $Class -Arguments @{ ComputerName = $MappedDrive.ComputerName; DriveLetter = $MappedDrive.DriveLetter; DrivePath = $MappedDrive.DrivePath; Username = $MappedDrive.Username } | Out-Null
 	}
 }
 
+function Start-ConfigurationManagerClientScan {
+<#  
+	.SYNOPSIS  
+		Initiate Configuration Manager Client Scan  
+
+	.DESCRIPTION  
+		This will initiate an SCCM action  
+
+	.PARAMETER ScheduleID  
+		GUID ID of the SCCM action  
+
+	.NOTES  
+		Additional information about the function.  
+#>
+
+	[CmdletBinding()]
+	param
+	(
+		[ValidateSet('00000000-0000-0000-0000-000000000121', '00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000010', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000021', '00000000-0000-0000-0000-000000000022', '00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000031', '00000000-0000-0000-0000-000000000108', '00000000-0000-0000-0000-000000000113', '00000000-0000-0000-0000-000000000111', '00000000-0000-0000-0000-000000000026', '00000000-0000-0000-0000-000000000027', '00000000-0000-0000-0000-000000000032')]$ScheduleID
+	)
+
+	$WMIPath = "\\" + $env:COMPUTERNAME + "\root\ccm:SMS_Client"
+	$SMSwmi = [wmiclass]$WMIPath
+	$Action = [char]123 + $ScheduleID + [char]125
+	[Void]$SMSwmi.TriggerSchedule($Action)
+}
+
+cls
 #Get list of mapped drives for each user
 $UserMappedDrives = Get-MappedDrives
-#Display list of mapped drives for each user
-$UserMappedDrives | Format-Table
 #Write output to a text file if -OutputFile is specified
 If ($OutputFile.IsPresent) {
 	If (($TextFileLocation -ne $null) -and ($TextFileLocation -ne "")) {
@@ -221,12 +305,14 @@ If ($OutputFile.IsPresent) {
 	}
 }
 If ($SCCMReporting.IsPresent) {
-#Create the new WMI class to write the output data to
-New-WMIClass
-#Write the output data as an instance to the WMI class
-If ($UserMappedDrives -ne $null) {
-	New-WMIInstance -MappedDrives $UserMappedDrives
+	#Create the new WMI class to write the output data to
+	New-WMIClass -Class "Mapped_Drives"
+	#Write the output data as an instance to the WMI class
+	If ($UserMappedDrives -ne $null) {
+		New-WMIInstance -MappedDrives $UserMappedDrives -Class "Mapped_Drives"
+	}
+	#Invoke a hardware inventory to send the data to SCCM
+	Invoke-SCCMHardwareInventory
 }
-#Invoke a hardware inventory to send the data to SCCM
-Invoke-SCCMHardwareInventory
-}
+#Display list of mapped drives for each user
+$UserMappedDrives | Format-Table
