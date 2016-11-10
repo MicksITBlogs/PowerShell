@@ -47,7 +47,7 @@ param
 	[switch]
 	$OutputFile,
 	[string]
-	$OutputFileLocation = '\\drfs1\DesktopApplications\ProductionApplications\Waller\LocalAdministrators\Systems',
+	$OutputFileLocation = '',
 	[switch]
 	$SCCMReporting,
 	[string]
