@@ -193,7 +193,7 @@ function Remove-WMIClass {
 
 Clear-Host
 #Retrieve number of times error 51 has been logged in the event viewer logs
-[int]$Count = (Get-WinEvent -FilterHashtable @{ logname = 'system'; ID = 6006 } -ErrorAction SilentlyContinue).Count
+[int]$Count = (Get-WinEvent -FilterHashtable @{ logname = 'system'; ID = 51 } -ErrorAction SilentlyContinue).Count
 If ($SCCMImport.IsPresent) {
 	#Create WMI Class
 	New-WMIClass -Class DriveReporting
