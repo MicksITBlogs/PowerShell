@@ -11,7 +11,7 @@
 		Created on:   	3/6/2017 2:24 PM
 		Created by:   	Mick Pletcher
 		Organization:
-		Filename:		UninstallMSIByName.ps1
+		Filename:	UninstallMSIByName.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
@@ -70,4 +70,5 @@ function Uninstall-MSIByName {
 }
 
 Clear-Host
+#Example using Cisco Jabber
 Uninstall-MSIByName -ApplicationName "Cisco Jabber" -Switches "/qb- /norestart"
