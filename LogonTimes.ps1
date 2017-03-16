@@ -221,9 +221,6 @@ If ($Errors -eq $false) {
 } else {
 	Write-Host "Failed" -ForegroundColor Red
 }
-
-
-
 #Logon at keyboard and screen of system
 $KeyboardLogons = Get-FilteredData -Logons $AllLogons -LogonType "2" -Message "Filtering keyboard logons"
 #Unlock workstation with password protected screen saver
