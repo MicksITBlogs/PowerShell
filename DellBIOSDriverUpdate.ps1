@@ -3,7 +3,7 @@
 		Update the BIOS and Drivers
 	
 	.DESCRIPTION
-		This script will update the BIOS and Drivers. It can detect if it is running within the WinPE or Windows environments. If it is running within WinPE, it will only update the BIOS, otherwise it will run all updates.
+		This script will update the BIOS, Applications, and Drivers. It can detect if it is running within the WinPE or Windows environments. If it is running within WinPE, it will only update the BIOS, otherwise it will run all updates.
 	
 	.PARAMETER WindowsRepository
 		UNC path to the updates Windows Repository that is accessible if the operating system is present
@@ -31,14 +31,15 @@
 		Filename:     	DellBIOSDriverUpdate.ps1
 		===========================================================================
 #>
+
 param
 (
-	[string]$WindowsRepository = '\\drfs1\DesktopApplications\ProductionApplications\Dell\Repository',
-	[string]$BIOSPassword = 'Vis0r511',
+	[string]$WindowsRepository,
+	[string]$BIOSPassword,
 	[switch]$BIOS,
 	[switch]$Drivers,
 	[switch]$Applications,
-	[string]$WinPERepository = 't:'
+	[string]$WinPERepository
 )
 
 function Get-Architecture {
