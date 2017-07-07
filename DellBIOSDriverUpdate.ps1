@@ -23,6 +23,16 @@
 	.PARAMETER WinPERepository
 		Path to the updates Windows Repository that is accessible if running within WinPE
 	
+	.EXAMPLE
+		Running in Windows only and applying all updates
+			powershell.exe -file DellBIOSDriverUpdate.ps1 -WindowsRepository "\\UNCPath2Repository"
+
+		Running in WinPE Only
+			powershell.exe -file DellBIOSDriverUpdate.ps1 -WinPERepository "t:"
+
+		Running in both Windows and WinPE
+			powershell.exe -file DellBIOSDriverUpdate.ps1 -WindowsRepository "\\UNCPath2Repository" -WinPERepository "t:"
+
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.140
