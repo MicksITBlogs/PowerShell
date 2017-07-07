@@ -357,13 +357,19 @@ function Update-Drivers {
 		If ($Update.type -eq "Driver") {
 			#Get driver update file
 			$UpdateFile = $Repository + $Update.Release + "\" + (($Update.file).split("/")[-1])
+			$UpdateFile = Get-ChildItem -Path $UpdateFile
 			#Verify driver update file exists
 			If ((Test-Path $UpdateFile) -eq $true) {
 				$Output = "Installing " + $Update.name + "....."
 				Write-Host $Output -NoNewline
 				# /s to suppress user interface
 				$Switches = "/s"
-				$ErrCode = (Start-Process -FilePath $UpdateFile -ArgumentList $Switches -WindowStyle Minimized -Wait -Passthru).ExitCode
+				$ErrCode = (Start-Process -FilePath $UpdateFile.Fullname -ArgumentList $Switches -WindowStyle Minimized -Passthru).ExitCode
+				$Start = Get-Date
+				Do {
+					$Process = (Get-Process | Where-Object { $_.ProcessName -eq $UpdateFile.BaseName }).ProcessName
+					$Duration = (Get-Date - $Start).TotalMinutes
+				} While (($Process -eq $UpdateFile.BaseName) -and ($Duration -lt 10))
 				If (($ErrCode -eq 0) -or ($ErrCode -eq 2) -or ($ErrCode -eq 3010)) {
 					Write-Host "Success" -ForegroundColor Yellow
 				} else {
