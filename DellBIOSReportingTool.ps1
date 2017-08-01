@@ -13,13 +13,13 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.141
 		Created on:   	7/18/2017 9:31 AM
 		Created by:   	Mick Pletcher
-		Filename:	DellBIOSReportingTool.ps1
+		Filename:		DellBIOSReportingTool.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$FilePath = '\\drfs1\DesktopApplications\ProductionApplications\Waller\BIOSReporting'
+	[ValidateNotNullOrEmpty()][string]$FilePath
 )
 
 function Get-Architecture {
@@ -129,7 +129,7 @@ function Get-ListOfBIOSSettings {
 	#Remove instructional information
 	$Output = $Output | Where-Object { $_ -like "*--*" } | Where-Object { $_ -notlike "*cctk*" }
 	#Format Data and sort it
-	$Output = ($Output.split("--") | Where-Object { $_ -notlike "*or*" } | Where-Object{ $_.trim() -ne "" }).Trim() | Where-Object { $_ -notlike "*help*" } | Where-Object { $_ -notlike "*version*" } | ForEach-Object { $_.Split("*")[0] } | Where-Object { $_ -notin $BIOSExclusions }
+	$Output = ($Output.split("--") | Where-Object { $_ -notlike "*or*" } | Where-Object{ $_.trim() -ne "" }).Trim() | Where-Object { $_ -notlike "*help*" } | Where-Object { $_ -notlike "*version*" } | Where-Object { $_ -notlike "*infile*" } | Where-Object { $_ -notlike "*logfile*" } | Where-Object { $_ -notlike "*outfile*" } | Where-Object { $_ -notlike "*ovrwrt*" } | Where-Object { $_ -notlike "*setuppwd*" } | Where-Object { $_ -notlike "*sysdefaults*" } | Where-Object { $_ -notlike "*syspwd*" } | ForEach-Object { $_.Split("*")[0] } | Where-Object { $_ -notin $BIOSExclusions }
 	#Add bootorder back in as -- filtered it out since it does not have the -- in front of it
 	$Output = $Output + "bootorder" | Sort-Object
 	Return $Output
@@ -167,6 +167,17 @@ function Get-BIOSSettings {
 	$BIOSArray = @()
 	foreach ($Setting in $Settings) {
 		switch ($Setting) {
+			"advbatterychargecfg" {
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "--" + $Setting
+				$Value = (cmd.exe /c $Arguments).split("=")[1]
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + "--" + $Setting
+				$Description = (cmd.exe /c $Arguments | Where-Object { $_.trim() -ne "" }).split(":")[1].Trim()
+			}
+			"advsm" {
+				$Value = ""
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | where-object {$_.trim() -ne ""}).split(":")[1].Trim().split(".")[0]
+			}
 			"bootorder" {
 				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + $Setting
 				$Output = (((((cmd.exe /c $Arguments | Where-Object { $_ -like "*Enabled*" } | Where-Object { $_ -notlike "*example*" }) -replace 'Enabled', '').Trim()) -replace '^\d+', '').Trim()) | ForEach-Object { ($_ -split ' {2,}')[1] }
@@ -174,31 +185,57 @@ function Get-BIOSSettings {
 				foreach ($item in $Output) {
 					[string]$Output2 += [string]$item + ","
 				}
-				$Output = $Output2.Substring(0,$Output2.Length-1)
+				$Value = $Output2.Substring(0,$Output2.Length-1)
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | where-object { $_.trim() -ne "" }).split(":")[1].Trim().split(".")[0]
+			}
+			"hddinfo" {
+				$Value = ""
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | where-object {$_.trim() -ne ""}).split(":")[1].trim().split(".")[0]
+			}
+			"hddpwd" {
+				$Value = ""
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | Where-Object {$_.trim() -ne ""}).split(":")[1].split(".")[0].trim()
+			}
+			"pci" {
+				$Value = ""
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | Where-Object { $_.trim() -ne "" }).split(":")[1].split(".")[0].trim()
+			}
+			"propowntag" {
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "--" + $Setting
+				$Value = ((cmd.exe /c $Arguments).split("=")[1]).trim()
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | Where-Object { $_.trim() -ne "" }).split(":")[1].trim()
 			}
 			"secureboot" {
 				$Arguments = [char]34 + $Executable.FullName + [char]34 + " --" + $Setting
 				$Output = cmd.exe /c $Arguments
 				if ($Output -like "*not enabled*") {
-					$Output = "secureboot=disabled"
+					$Value = "disabled"
 				} else {
-					$Output = "secureboot=enabled"
+					$Value = "enabled"
 				}
+				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + $Setting
+				$Description = ((cmd.exe /c $Arguments) | where-object { $_.trim() -ne "" }).split(":")[1].Trim().split(".")[0]
 			}
 			default {
 				#Get BIOS setting
+				$Output = $null
 				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "--" + $Setting
 				$Output = cmd.exe /c $Arguments
 				#Get BIOS Description
 				$Arguments = [char]34 + $Executable.FullName + [char]34 + [char]32 + "-h" + [char]32 + "--" + $Setting
-				$Description = cmd.exe /c $Arguments
-				$Description = $Description | Where-Object { $_.trim() -ne "" }.split(":").Trim()[1]
+				$Description = ((cmd.exe /c $Arguments) | Where-Object { $_.trim() -ne "" }).split(":").Trim()[1]
+				$Value = $Output.split("=")[1]
 			}
 		}
 		#Add Items to object array
 		$objBIOS = New-Object System.Object
-		$objBIOS | Add-Member -MemberType NoteProperty -Name Setting -Value $Output.split("=")[0]
-		$objBIOS | Add-Member -MemberType NoteProperty -Name Value -Value $Output.split("=")[1]
+		$objBIOS | Add-Member -MemberType NoteProperty -Name Setting -Value $Setting
+		$objBIOS | Add-Member -MemberType NoteProperty -Name Value -Value $Value
 		$objBIOS | Add-Member -MemberType NoteProperty -Name Description -Value $Description
 		$BIOSArray += $objBIOS
 	}
