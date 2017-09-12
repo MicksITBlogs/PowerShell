@@ -31,8 +31,8 @@
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$SCCMServer='BNASCCM',
-	[ValidateNotNullOrEmpty()][string]$SCCMDrive='BNA',
+	[ValidateNotNullOrEmpty()][string]$SCCMServer,
+	[ValidateNotNullOrEmpty()][string]$SCCMDrive,
 	[ValidateNotNullOrEmpty()][string]$SCCMCollection = 'All Systems',
 	[switch]$ReportOnly
 )
