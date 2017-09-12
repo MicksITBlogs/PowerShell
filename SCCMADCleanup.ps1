@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		SCCM AD Cleanup
 	
@@ -31,8 +31,8 @@
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$SCCMServer,
-	[ValidateNotNullOrEmpty()][string]$SCCMDrive,
+	[ValidateNotNullOrEmpty()][string]$SCCMServer='BNASCCM',
+	[ValidateNotNullOrEmpty()][string]$SCCMDrive='BNA',
 	[ValidateNotNullOrEmpty()][string]$SCCMCollection = 'All Systems',
 	[switch]$ReportOnly
 )
@@ -118,7 +118,7 @@ function Get-SCCMCollectionList {
 		Name of SCCM collection to query
 	
 	.EXAMPLE
-				PS C:\> Get-SCCMCollectionList
+		PS C:\> Get-SCCMCollectionList
 	
 	.NOTES
 		Additional information about the function.
@@ -130,6 +130,10 @@ function Get-SCCMCollectionList {
 		[ValidateNotNullOrEmpty()][string]$CollectionName
 	)
 	
+	#FQDN of SCCM Server
+	$FQDN = ([System.Net.Dns]::GetHostByName($SCCMServer)).HostName
+	#Create new SCCM drive
+	New-PSDrive -Name $SCCMDrive -PSProvider "AdminUI.PS.Provider\CMSite" -Root $FQDN -Description $SCCMDrive"Primary Site" | Out-Null
 	#Add colon at end of SCCMDrive if it does not exist
 	If ($SCCMDrive[$SCCMDrive.Length - 1] -ne ":") {
 		$SCCMDrive = $SCCMDrive + ":"
@@ -200,7 +204,7 @@ function Remove-Systems {
 
 Clear-Host
 Import-Module ActiveDirectory
-Import-SCCMModule -SCCMServer BNASCCM
+Import-SCCMModule -SCCMServer $SCCMServer
 $Collection = Get-SCCMCollectionList -CollectionName "All Systems"
 If (!($ReportOnly.IsPresent)) {
 	Remove-Systems -Collection $Collection
