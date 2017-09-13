@@ -31,8 +31,8 @@
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$SCCMServer,
-	[ValidateNotNullOrEmpty()][string]$SCCMDrive,
+	[ValidateNotNullOrEmpty()][string]$SCCMServer='BNASCCM',
+	[ValidateNotNullOrEmpty()][string]$SCCMDrive='BNA',
 	[ValidateNotNullOrEmpty()][string]$SCCMCollection = 'All Systems',
 	[switch]$ReportOnly
 )
@@ -186,6 +186,10 @@ function Remove-Systems {
 		[ValidateNotNullOrEmpty()]$Collection
 	)
 	
+	#FQDN of SCCM Server
+	$FQDN = ([System.Net.Dns]::GetHostByName($SCCMServer)).HostName
+	#Create new SCCM drive
+	New-PSDrive -Name $SCCMDrive -PSProvider "AdminUI.PS.Provider\CMSite" -Root $FQDN -Description $SCCMDrive"Primary Site" | Out-Null
 	#Add colon at end of SCCMDrive if it does not exist
 	If ($SCCMDrive[$SCCMDrive.Length - 1] -ne ":") {
 		$SCCMDrive = $SCCMDrive + ":"
@@ -205,14 +209,15 @@ function Remove-Systems {
 Clear-Host
 Import-Module ActiveDirectory
 Import-SCCMModule -SCCMServer $SCCMServer
+#Get execution path of this script
+$RelativePath = Get-RelativePath
 $Collection = Get-SCCMCollectionList -CollectionName "All Systems"
 If (!($ReportOnly.IsPresent)) {
 	Remove-Systems -Collection $Collection
 	$Collection
+	$File = $RelativePath + "DeletedSystems.csv"
 	$Collection | Out-File -FilePath $File -Encoding UTF8 -NoClobber -force
 } else {
-	#Get execution path of this script
-	$RelativePath = Get-RelativePath
 	#Location and name of .CSV to write the output to
 	$File = $RelativePath + "DisabledSystems.csv"
 	#Delete file if it exists
