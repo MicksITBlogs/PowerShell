@@ -5,6 +5,12 @@
 	.DESCRIPTION
 		This function queries the speculation control settings for the system.
 	
+	.PARAMETER FileName
+		Name of file to write status output to
+	
+	.PARAMETER FileLocation
+		Location of the .CSV reporting file
+	
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.143
@@ -14,7 +20,11 @@
 		===========================================================================
 #>
 [CmdletBinding()]
-param ()
+param
+(
+	[string]$FileName = 'SpectreMeltdownReport.csv',
+	[string]$FileLocation = '\\drfs1\DesktopApplications\ProductionApplications\Reporting\SpectreMeltdownReport'
+)
 
 function Get-SpeculationControlSettings {
 <#
@@ -117,6 +127,7 @@ function Get-SpeculationControlSettings {
 				Write-Host -ForegroundColor Red "Windows OS support for branch target injection mitigation is disabled by absence of hardware support:"($btiDisabledByNoHardwareSupport)
 			}
 			
+			$object | Add-Member -MemberType NoteProperty -Name ComputerName -Value $env:COMPUTERNAME
 			$object | Add-Member -MemberType NoteProperty -Name BTIHardwarePresent -Value $btiHardwarePresent
 			$object | Add-Member -MemberType NoteProperty -Name BTIWindowsSupportPresent -Value $btiWindowsSupportPresent
 			$object | Add-Member -MemberType NoteProperty -Name BTIWindowsSupportEnabled -Value $btiWindowsSupportEnabled
@@ -204,7 +215,6 @@ function Get-SpeculationControlSettings {
 				}
 			}
 			
-			
 			$object | Add-Member -MemberType NoteProperty -Name KVAShadowRequired -Value $kvaShadowRequired
 			$object | Add-Member -MemberType NoteProperty -Name KVAShadowWindowsSupportPresent -Value $kvaShadowPresent
 			$object | Add-Member -MemberType NoteProperty -Name KVAShadowWindowsSupportEnabled -Value $kvaShadowEnabled
@@ -239,11 +249,25 @@ function Get-SpeculationControlSettings {
 				}
 			}
 			
-			
+			#Write output to file
+			If ($FileLocation[$FileLocation.Length - 1] -ne "\") {
+				$File = $FileLocation + "\" + $FileName
+			} else {
+				$File = $FileLocation + $FileName
+			}
+			Do {
+				Try {
+					Export-Csv -InputObject $object -Path $File -NoTypeInformation -Encoding UTF8 -Append -ErrorAction SilentlyContinue
+					$Success = $true
+				} catch {
+					$Success = $false
+				}
+			} while ($Success -eq $false)
 			return $object
 			
+			
 		} finally {
-			#Clear pointer if they contain information
+			#Clear pointers if they contain information
 			if ($systemInformationPtr -ne [System.IntPtr]::Zero) {
 				[System.Runtime.InteropServices.Marshal]::FreeHGlobal($systemInformationPtr)
 			}
@@ -254,5 +278,6 @@ function Get-SpeculationControlSettings {
 		}
 	}
 }
+
 
 Get-SpeculationControlSettings
