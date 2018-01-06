@@ -248,26 +248,28 @@ function Get-SpeculationControlSettings {
 					Write-Host " *" $action
 				}
 			}
-			
-			#Write output to file
+			#Add backslash to the end of $FileLocation if it does not exist and then add $FileName
 			If ($FileLocation[$FileLocation.Length - 1] -ne "\") {
 				$File = $FileLocation + "\" + $FileName
 			} else {
 				$File = $FileLocation + $FileName
 			}
+			#Keep retrying to write the output to the centralized .CSV file until it is freed up
 			Do {
 				Try {
+					#Write output to file
 					Export-Csv -InputObject $object -Path $File -NoTypeInformation -Encoding UTF8 -Append -ErrorAction SilentlyContinue
 					$Success = $true
 				} catch {
 					$Success = $false
 				}
 			} while ($Success -eq $false)
+			#Write output to screen
 			return $object
 			
 			
 		} finally {
-			#Clear pointers if they contain information
+			#Clear both pointers if they contain information
 			if ($systemInformationPtr -ne [System.IntPtr]::Zero) {
 				[System.Runtime.InteropServices.Marshal]::FreeHGlobal($systemInformationPtr)
 			}
