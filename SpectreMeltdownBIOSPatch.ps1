@@ -16,7 +16,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.143
 		Created on:   	1/9/2018 1:46 PM
 		Created by:   	Mick Pletcher
-		Filename:		Patch.ps1
+		Filename:	SpectreMeltdownPatch.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
