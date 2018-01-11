@@ -22,7 +22,7 @@
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$BIOSLocation = '\\drfs1\DesktopApplications\ProductionApplications\Dell\BIOS',
+	[ValidateNotNullOrEmpty()][string]$BIOSLocation = '',
 	[string]$BIOSPassword = $null
 )
 
