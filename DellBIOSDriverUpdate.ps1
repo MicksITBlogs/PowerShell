@@ -37,7 +37,7 @@
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.140
 		Created on:   	6/21/2017 3:16 PM
-		Created by:   	Mick Pletcher 
+		Created by:   	Mick Pletcher
 		Filename:     	DellBIOSDriverUpdate.ps1
 		===========================================================================
 #>
