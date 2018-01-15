@@ -23,8 +23,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.3.131
 		Created on:   	12/13/2016 12:20 PM
 		Created by:   	Mick Pletcher
-		Organization:
-		Filename:		CiscoJabberChatCleanup.ps1
+		Filename:	CiscoJabberChatCleanup.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
