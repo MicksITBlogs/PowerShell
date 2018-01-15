@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		User Logon Report
 	
@@ -28,7 +28,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.136
 		Created on:   	3/15/2017 12:00 PM
 		Created by:   	Mick Pletcher
-		Filename:		LogonTimes.ps1
+		Filename:	LogonTimes.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
