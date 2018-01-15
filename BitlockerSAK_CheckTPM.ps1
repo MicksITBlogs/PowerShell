@@ -4,7 +4,6 @@
 	 Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2015 v4.2.99
 	 Created on:   	1/28/2016 1:55 PM
 	 Created by:   	Mick Pletcher 
-	 Organization: 	 
 	 Filename:     	BitlockerSAK_CheckTPM.ps1
 	===========================================================================
 	.DESCRIPTION
