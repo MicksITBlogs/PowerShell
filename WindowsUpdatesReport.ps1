@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		Generate Windows Updates Report
 	
@@ -37,7 +37,7 @@
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.139
 		Created on:   	5/31/2017 10:12 AM
-		Created by:   	Mick Pletcher
+		Created by:   	Mick Pletcher 
 		Filename:     	WindowsUpdatesReport.ps1
 		===========================================================================
 #>
