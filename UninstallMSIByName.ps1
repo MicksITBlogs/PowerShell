@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		Uninstall MSI by Application Name
 	
@@ -10,7 +10,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.136
 		Created on:   	3/6/2017 2:24 PM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:	UninstallMSIByName.ps1
 		===========================================================================
 #>
