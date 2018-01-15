@@ -26,7 +26,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.3.131
 		Created on:   	12/29/2016 12:45 PM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:     	CachedModeReporting.ps1
 		===========================================================================
 #>
