@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		SMART Reporting
 	
@@ -32,8 +32,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.127
 		Created on:   	8/12/2016 11:02 AM
 		Created by:	Mick Pletcher
-		Organization:
-		Filename:		SMARTReporting.ps1
+		Filename:	SMARTReporting.ps1
 		===========================================================================
 #>
 param
