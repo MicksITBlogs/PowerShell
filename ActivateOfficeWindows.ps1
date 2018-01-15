@@ -36,7 +36,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.122
 		Created on:   	6/3/2016 4:00 PM
 		Created by:	Mick Pletcher
-		Organization:
 		Filename:     	ActivateOfficeWindows.ps1
 		===========================================================================
 #>
