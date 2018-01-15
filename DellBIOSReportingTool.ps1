@@ -13,7 +13,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.141
 		Created on:   	7/18/2017 9:31 AM
 		Created by:   	Mick Pletcher
-		Filename:		DellBIOSReportingTool.ps1
+		Filename:	DellBIOSReportingTool.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
