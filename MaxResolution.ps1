@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		Get Maximum Monitor Resolution
 	
@@ -10,8 +10,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.139
 		Created on:   	5/30/2017 12:37 PM
 		Created by:   	Mick Pletcher
-		Organization:
-		Filename:		MaxResolution.ps1
+		Filename:	MaxResolution.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
