@@ -38,7 +38,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.129
 		Created on:   	11/14/2016 1:18 PM
 		Created by:	Mick Pletcher
-		Organization:
 		Filename:	BitlockerRecoveryKey.ps1
 		===========================================================================
 #>
