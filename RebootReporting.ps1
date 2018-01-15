@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		Reboot Report
 	
@@ -22,7 +22,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.139
 		Created on:   	5/22/2017 2:42 PM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:     	RebootReporting.ps1
 		===========================================================================
 #>
