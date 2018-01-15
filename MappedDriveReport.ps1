@@ -1,4 +1,4 @@
-﻿<#
+<#
 	.SYNOPSIS
 		Get List of Mapped Drives
 	
@@ -32,8 +32,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.128
 		Created on:   	10/7/2016 10:57 AM
 		Created by:   	Mick Pletcher
-		Organization:
-		Filename:		MappedDriveReport.ps1
+		Filename:	MappedDriveReport.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
