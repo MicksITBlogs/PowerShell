@@ -20,7 +20,7 @@
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.139
-		Created on:   	5/8/2017 1:32 PM
+		Created on:   	5/8/2017 1:32 PM 
 		Created by:   	Mick Pletcher
 		Filename:	SCCMQuery.ps1
 		===========================================================================
