@@ -9,7 +9,7 @@
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.139
 		Created on:   	4/26/2017 3:56 PM
-		Created by:   	Mick Pletcher 
+		Created by:   	Mick Pletcher
 		Filename:	ImportSCCMModule.ps1
 		===========================================================================
 #>
