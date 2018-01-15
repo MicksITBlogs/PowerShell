@@ -15,7 +15,7 @@
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.135
-		Created on:   	2/22/2017 10:46 AM
+		Created on:   	2/22/2017 10:46 AM 
 		Created by:   	Mick Pletcher
 		Filename:	ClearPrintSpooler.ps1
 		===========================================================================

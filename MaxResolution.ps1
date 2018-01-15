@@ -8,7 +8,7 @@
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.139
-		Created on:   	5/30/2017 12:37 PM
+		Created on:   	5/30/2017 12:37 PM 
 		Created by:   	Mick Pletcher
 		Filename:	MaxResolution.ps1
 		===========================================================================

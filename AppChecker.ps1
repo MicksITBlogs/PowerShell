@@ -20,8 +20,8 @@
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.138
-		Created on:   	4/4/2017 4:51 PM 
-		Created by:   	Mick Pletcher
+		Created on:   	4/4/2017 4:51 PM
+		Created by:   	Mick Pletcher 
 		Filename:     	AppChecker.ps1
 		===========================================================================
 #>
