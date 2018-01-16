@@ -1,10 +1,9 @@
-﻿<#	
+<#	
 	.NOTES
 	===========================================================================
 	 Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.125
 	 Created on:   	7/26/2016 1:39 PM
 	 Created by:   	Mick Pletcher
-	 Organization: 	 
 	 Filename:     	GetFileProperties.ps1
 	===========================================================================
 #>
