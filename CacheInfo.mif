@@ -1,0 +1,20 @@
+Start Component  
+     Name = "SMS Client Info"
+     Start group
+          Name = "SMS Cache"
+          ID = 1
+          Class = "SMSCache"  
+          Start Attribute  
+               Name = "In Use"
+               ID = 1
+               Type = String(10)
+               Value = "INUSE"
+          End Attribute  
+          Start Attribute  
+               Name = "Size"
+               ID = 2
+               Type = String(10)
+               Value = "CACHESIZE"
+          End Attribute  
+     End group  
+ End Component  
