@@ -62,7 +62,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.127
 		Created on:   	8/16/2016 10:13 AM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:     	Set-PowerScheme.ps1
 		===========================================================================
 #>
