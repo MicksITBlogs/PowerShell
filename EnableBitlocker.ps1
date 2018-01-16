@@ -1,9 +1,8 @@
-﻿<#
+<#
 	===========================================================================
 	Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2015 v4.2.99
 	Created on:   	2/26/2016 2:02 PM
 	Created by:   	Mick Pletcher
-	Organization:
 	Filename:       EnableBitlocker.ps1
 	===========================================================================
 	.DESCRIPTION

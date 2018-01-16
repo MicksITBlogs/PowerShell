@@ -1,10 +1,9 @@
-﻿<#	
+<#	
 	.NOTES
 	===========================================================================
 	 Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2015 v4.2.99
 	 Created on:   	2/25/2016 4:29 PM
 	 Created by:   	Mick Pletcher
-	 Organization: 	 
 	 Filename:     	BitlockerSystem.ps1
 	===========================================================================
 	.DESCRIPTION
