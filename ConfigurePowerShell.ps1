@@ -19,7 +19,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.122
 		Created on:   	5/18/2016 12:12 PM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:     	ConfigurePowerShell.ps1
 		===========================================================================
 #>
