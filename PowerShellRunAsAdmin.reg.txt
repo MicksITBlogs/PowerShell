@@ -1,0 +1,4 @@
+Windows Registry Editor Version 5.00  
+
+ [HKEY_CLASSES_ROOT\Microsoft.PowerShellScript.1\Shell\runas\command]  
+ @="\"c:\\windows\\system32\\windowspowershell\\v1.0\\powershell.exe\" -noexit \"%1\""
