@@ -4,7 +4,8 @@
        Created with:     SAPIEN Technologies, Inc., PowerShell Studio 2015 v4.2.99  
        Created on:       2/18/2016 12:32 PM  
        Created by:       Mick Pletcher  
-       Filename:         UninstallMSIByName.ps1      ===========================================================================  
+       Filename:         UninstallMSIByName.ps1
+       ===========================================================================  
       .DESCRIPTION  
            Here is a function that will uninstall an MSI installed application by  
            the name of the app. You do not need to input the entire name either.   
