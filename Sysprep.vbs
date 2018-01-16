@@ -50,12 +50,12 @@
 '			   active directory, as this HDD will have the same computer name. The
 '			   script will continue through and will shut down the machine when
 '			   complete. At that point, you can remove the HDD and insert it into
-'			   the user’s computer. This will be a seamless setup. There will be no
+'			   the userâ€™s computer. This will be a seamless setup. There will be no
 '			   prompts for the end-user. Once it is completed, the system will be
 '			   sitting at ctrl+alt+del. 
 '
 '			   NOTE: It is very important that you make sure the BIOS is configured
-'					 correctly to your company’s specs. If the BIOS on the user’s
+'					 correctly to your companyâ€™s specs. If the BIOS on the userâ€™s
 '					 computer is not, the OS can become corrupt and a complete
 '					 rebuild will be required. 
 '
