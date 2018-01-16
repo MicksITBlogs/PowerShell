@@ -4,7 +4,6 @@
 	 Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.125
 	 Created on:   	7/22/2016 2:56 PM
 	 Created by:   	Mick Pletcher
-	 Organization: 	 
 	 Filename:     	Invoke-MSI.ps1
 	===========================================================================
 #>
