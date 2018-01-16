@@ -19,7 +19,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.124
 		Created on:   	7/8/2016 1:29 AM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:     	InstalledApplications.ps1
 		===========================================================================
 #>
