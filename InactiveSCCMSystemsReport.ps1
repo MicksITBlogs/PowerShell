@@ -5,15 +5,15 @@
 		Created by:	Mick Pletcher
 		Filename:	InactiveSCCMSystemsReport.ps1
 		Description:	This script will retrieve the SCCM inactive systems
-						collection and search active directory to see if it 
-						exists there. If so, it will retrieve the last 
-						logon date and generate a UTF-8 formatted csv file.
+				collection and search active directory to see if it 
+				exists there. If so, it will retrieve the last 
+				logon date and generate a UTF-8 formatted csv file.
 
-						The powershell active directory module will need to be
-						enabled on the SCCM server in order for this script to 
-						work correctly. This script will also need to be executed
-						on the SCCM server. You will also need to find the location
-						of ConfigurationManager.psd1 module to import. 
+				The powershell active directory module will need to be
+				enabled on the SCCM server in order for this script to 
+				work correctly. This script will also need to be executed
+				on the SCCM server. You will also need to find the location
+				of ConfigurationManager.psd1 module to import. 
 		===========================================================================
 #>
 param
