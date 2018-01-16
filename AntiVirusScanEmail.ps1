@@ -37,7 +37,7 @@
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.127
 		Created on:   	8/5/2016 11:11 AM
-		Created by:   	Mick Pletcher 
+		Created by:   	Mick Pletcher
 		Filename:     	AntiVirusScanEmail.ps1
 		===========================================================================
 #>
