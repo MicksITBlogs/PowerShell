@@ -1,5 +1,5 @@
  REM ***************************************************************************  
- REM ***     Program: USMTCapture.vbs  
+ REM ***     Program: USMT_Capture.vbs  
  REM ***      Author: Mick Pletcher  
  REM ***     Created: 23 July 2010  
  REM ***      Edited: 21 March 2011  
