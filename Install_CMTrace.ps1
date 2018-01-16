@@ -35,7 +35,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.2.124
 		Created on:   	7/6/2016 10:37 AM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:     	InstallCMTrace.ps1
 		===========================================================================
 #>
