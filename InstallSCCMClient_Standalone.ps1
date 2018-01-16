@@ -1,10 +1,9 @@
 <#       
      .NOTES  
      ===========================================================================  
-      Created with:      SAPIEN Technologies, Inc., PowerShell Studio 2015 v4.2.90  
+      Created with:     SAPIEN Technologies, Inc., PowerShell Studio 2015 v4.2.90  
       Created on:       7 August 2015 12:18 PM  
       Created by:       Mick Pletcher  
-      Organization:        
       Filename:        installSCCMClient_Standalone.ps1  
      ===========================================================================  
      .DESCRIPTION  
