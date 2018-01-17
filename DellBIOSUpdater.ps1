@@ -47,9 +47,6 @@ function Confirm-Bitlocker {
 	
 	.EXAMPLE
 		PS C:\> Confirm-Bitlocker
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()][OutputType([boolean])]
@@ -74,9 +71,6 @@ function Confirm-Docked {
 	
 	.EXAMPLE
 				PS C:\> Confirm-Docked
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()][OutputType([boolean])]
@@ -97,9 +91,6 @@ function Confirm-Laptop {
 	
 	.DESCRIPTION
 		A detailed description of the Confirm-Laptop function.
-	
-	.EXAMPLE
-		PS C:\> Confirm-Laptop
 	
 	.NOTES
 		Additional information about the function.
@@ -124,9 +115,6 @@ function Disable-Bitlocker {
 	
 	.DESCRIPTION
 		Pause bitlocker
-	
-	.EXAMPLE
-				PS C:\> Disable-Bitlocker
 	
 	.NOTES
 		Additional information about the function.
@@ -155,9 +143,6 @@ function Enable-Bitlocker {
 	.DESCRIPTION
 		Enable bitlocker
 	
-	.EXAMPLE
-		PS C:\> Enable-Bitlocker
-	
 	.NOTES
 		Additional information about the function.
 #>
@@ -184,9 +169,6 @@ function Get-Architecture {
 	.DESCRIPTION
 		Returns whether the system architecture is 32-bit or 64-bit
 	
-	.EXAMPLE
-		Get-Architecture
-	
 	.NOTES
 		Additional information about the function.
 #>
@@ -206,9 +188,6 @@ function Get-BIOSPasswordStatus {
 	
 	.DESCRIPTION
 		Check if the BIOS password is set
-	
-	.EXAMPLE
-		PS C:\> Get-BIOSPasswordStatus
 	
 	.NOTES
 		Additional information about the function.
@@ -246,11 +225,9 @@ function Install-BIOSUpdate {
 	.DESCRIPTION
 		A detailed description of the Install-BIOSUpdate function.
 	
-	.EXAMPLE
-				PS C:\> Install-BIOSUpdate
-	
 	.NOTES
-		Additional information about the function.
+		Addition possible exit codes for dell update are outlined here:
+		http://en.community.dell.com/techcenter/enterprise-client/w/wiki/3462.dup-bios-updates
 #>
 	
 	[CmdletBinding()]
@@ -282,7 +259,7 @@ function Install-BIOSUpdate {
 	}
 }
 
-#Used to test bitlocker portion of this script. Leave disabled by default
+#Used to test bitlocker portion of this script. Leave Enable-Bitlocker commented out by default
 #Enable-Bitlocker
 #Test if system is a laptop, docking required, and is docked, otherwise exit with errcode 1
 If (((Confirm-Laptop) -eq $true) -and ($RequireDocking.IsPresent) -and ((Confirm-Docked) -eq $false)) {
