@@ -28,6 +28,7 @@
 		Exitcode 3 : BIOS file is missing
 		Exitcode 4 : BIOS file does not match model
 #>
+
 [CmdletBinding()]
 param
 (
@@ -54,6 +55,7 @@ function Confirm-Bitlocker {
 	[CmdletBinding()][OutputType([boolean])]
 	param ()
 	
+	#Get bitlocker status
 	$BDEStatus = manage-bde -status
 	if ((($BDEStatus) -like "*Protection On*") -and ($BDEStatus -like "*" + $Env:HOMEDRIVE + "*")) {
 		Return $true
@@ -133,7 +135,9 @@ function Disable-Bitlocker {
 	[CmdletBinding()]
 	param ()
 	
+	#Disable bitlocker
 	$BDEStatus = manage-bde -protectors -disable $env:HOMEDRIVE
+	#Get bitlocker status
 	$Bitlockered = Confirm-Bitlocker
 	If ($Bitlockered -eq $false) {
 		Return $false
@@ -161,7 +165,9 @@ function Enable-Bitlocker {
 	[CmdletBinding()][OutputType([boolean])]
 	param ()
 	
+	#Enable Bitlocker
 	$BDEStatus = manage-bde -protectors -enable $env:HOMEDRIVE
+	#Get bitlocker status
 	$Bitlockered = Confirm-Bitlocker
 	If ($Bitlockered -eq $false) {
 		Return $true
@@ -188,9 +194,9 @@ function Get-Architecture {
 	[CmdletBinding()][OutputType([string])]
 	param ()
 	
+	#Returns 32-bit or 64-bit
 	$OSArchitecture = (Get-WmiObject -Class Win32_OperatingSystem | Select-Object OSArchitecture).OSArchitecture
 	Return $OSArchitecture
-	#Returns 32-bit or 64-bit
 }
 
 function Get-BIOSPasswordStatus {
@@ -263,6 +269,7 @@ function Install-BIOSUpdate {
 			} else {
 				$Arguments = "/f /s /p=" + $BIOSPassword + [char]32 + "/l=" + $env:windir + "\waller\Logs\ApplicationLogs\BIOS.log"
 			}
+			#Apply BIOS update
 			$ErrCode = (Start-Process -FilePath $File.FullName -ArgumentList $Arguments -Wait -PassThru).ExitCode
 			If (($ErrCode -eq 0) -or ($ErrCode -eq 2)) {
 				Exit 3010
@@ -283,9 +290,11 @@ If (((Confirm-Laptop) -eq $true) -and ($RequireDocking.IsPresent) -and ((Confirm
 #Pause Bitlocker if enabled
 $Bitlockered = Confirm-Bitlocker
 If ($Bitlockered -eq $true) {
+	#Disable bitlocker
 	$Bitlockered = Disable-Bitlocker
 	If ($Bitlockered -eq $true) {
 		Exit 2
 	}
 }
+#Install BIOS Update
 Install-BIOSUpdate
