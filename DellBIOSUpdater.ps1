@@ -32,7 +32,6 @@
 		Exitcode 1 : Laptop not docked
 		Exitcode 2 : Bitlocker failed to pause
 		Exitcode 3 : BIOS file is missing
-		Exitcode 4 : Unspecified BIOS update failure
 #>
 [CmdletBinding()]
 param
@@ -284,8 +283,6 @@ function Install-BIOSUpdate {
 			$ErrCode = (Start-Process -FilePath $File.FullName -ArgumentList $Arguments -Wait -PassThru).ExitCode
 			If (($ErrCode -eq 0) -or ($ErrCode -eq 2)) {
 				Exit 3010
-			} else {
-				Exit 4
 			}
 		} else {
 			Exit 3
