@@ -294,7 +294,7 @@ function Backup-BitlockerPassword {
 }
 
 #Used to test bitlocker portion of this script. Leave Enable-Bitlocker commented out by default
-#Enable-Bitlocker
+Enable-Bitlocker
 #Test if system is a laptop, docking required, and is docked, otherwise exit with errcode 1
 If (((Confirm-Laptop) -eq $true) -and ($RequireDocking.IsPresent) -and ((Confirm-Docked) -eq $false)) {
 	Exit 1
