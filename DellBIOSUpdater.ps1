@@ -14,6 +14,12 @@
 	.PARAMETER RequireDocking
 		Specifies if docking is required for laptop in order to apply the BIOS update
 	
+	.PARAMETER RecoveryKeyLocation
+		Path to the secured UNC location
+	
+	.PARAMETER BackupBitlockerPassword
+		Use this switch to backup the bitlocker recovery password to a text file located at the specified %RecoveryKeyLocation%.
+	
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.143
@@ -28,13 +34,14 @@
 		Exitcode 3 : BIOS file is missing
 		Exitcode 4 : BIOS file does not match model
 #>
-
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$BIOSLocation = '\\drfs1\DesktopApplications\ProductionApplications\Dell\BIOS',
+	[ValidateNotNullOrEmpty()][string]$BIOSLocation,
 	[string]$BIOSPassword = $null,
-	[switch]$RequireDocking
+	[switch]$RequireDocking,
+	[string]$RecoveryKeyLocation,
+	[switch]$BackupBitlockerPassword
 )
 
 function Confirm-Bitlocker {
@@ -259,6 +266,33 @@ function Install-BIOSUpdate {
 	}
 }
 
+function Backup-BitlockerPassword {
+<#
+	.SYNOPSIS
+		Backup Bitlocker Recovery Password
+	
+	.DESCRIPTION
+		This will retrieve the Bitlocker recovery password and write it to a text file (computername.txt) located in a secured UNC path. This is a precautionary measure in the event something goes wrong and the system asks for the recovery key while booting up after the application of the BIOS update. Most  have a recovery key backup already in place, such as MBAM or AD, but in my experience, you cannot be safe enough when dealing with scenarios such as this.
+	
+	.NOTES
+		Additional information about the function.
+#>
+	
+	[CmdletBinding()]
+	param ()
+	
+	$FilePath = "\\drfs1\DesktopApplications\ProductionApplications\BitlockerRecoveryKeys"
+	If ($FilePath[$FilePath.Length - 1] -ne "\") {
+		$FileName = $FilePath + "\" + $env:COMPUTERNAME + ".txt"
+	} else {
+		$FileName = $FilePath + $env:COMPUTERNAME + ".txt"
+	}
+	If ((Test-Path $FileName) -eq $true) {
+		Remove-Item -Path $FileName -Force
+	}
+	(manage-bde -protectors -get $env:HOMEDRIVE -id ((Get-WmiObject -Namespace "Root\cimv2\Security\MicrosoftVolumeEncryption" -Class "Win32_EncryptableVolume").GetKeyProtectors(3).volumekeyprotectorID) | Where-Object { $_.trim() -ne "" }).Trim() | Where-Object { (($_ -like "*-*") -and ($_ -notlike "*ID*")) } | Where-Object { $_.trim() -ne "" } | Out-File -FilePath $FileName -Encoding UTF8 -Force
+}
+
 #Used to test bitlocker portion of this script. Leave Enable-Bitlocker commented out by default
 #Enable-Bitlocker
 #Test if system is a laptop, docking required, and is docked, otherwise exit with errcode 1
@@ -268,6 +302,9 @@ If (((Confirm-Laptop) -eq $true) -and ($RequireDocking.IsPresent) -and ((Confirm
 #Pause Bitlocker if enabled
 $Bitlockered = Confirm-Bitlocker
 If ($Bitlockered -eq $true) {
+	If ($BackupBitlockerPassword.IsPresent) {
+		Backup-BitlockerPassword
+	}
 	#Disable bitlocker
 	$Bitlockered = Disable-Bitlocker
 	If ($Bitlockered -eq $true) {
