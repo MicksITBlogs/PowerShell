@@ -32,6 +32,9 @@
 		Exitcode 1 : Laptop not docked
 		Exitcode 2 : Bitlocker failed to pause
 		Exitcode 3 : BIOS file is missing
+		Exitcode 4 : Unspecified BIOS update failure
+		Exitcode 5 : Installed BIOS version is equal to or greater than package version
+		Exitcode 6 : DellBIOSVerifier.ps1 exit code in the event the BIOS failed to update
 #>
 [CmdletBinding()]
 param
@@ -283,12 +286,42 @@ function Install-BIOSUpdate {
 			$ErrCode = (Start-Process -FilePath $File.FullName -ArgumentList $Arguments -Wait -PassThru).ExitCode
 			If (($ErrCode -eq 0) -or ($ErrCode -eq 2)) {
 				Exit 3010
+			} else {
+				Exit 4
 			}
 		} else {
 			Exit 3
 		}
 	} else {
 		Exit 3
+	}
+}
+
+function Confirm-BIOSUpdate {
+<#
+	.SYNOPSIS
+		Confirm BIOS Update Requirement
+	
+	.DESCRIPTION
+		This function checks the current installed BIOS version against the version to be installed to verify the current version is less than the new version.
+	
+	.EXAMPLE
+				PS C:\> Confirm-BIOSUpdate
+	
+	.NOTES
+		Additional information about the function.
+#>
+	
+	[CmdletBinding()]
+	param ()
+	
+	$InstalledVersion = [string]((Get-WmiObject Win32_BIOS).SMBIOSBIOSVersion)
+	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1]
+	[string]$BIOSVersion = (Get-ChildItem -Path $RelativePath | Where-Object { $_.Name -eq $Model } | Get-ChildItem -Filter *.exe)
+	If ($InstalledVersion -lt $BIOSVersion) {
+		Return $true
+	} else {
+		Return $false
 	}
 }
 
@@ -313,5 +346,11 @@ If ($Bitlockered -eq $true) {
 		Exit 2
 	}
 }
+#Confirm the version to be installed is greater than the version that is installed
+$BIOSUpdate = Confirm-BIOSUpdate
 #Install BIOS Update
-Install-BIOSUpdate
+If ($BIOSUpdate -eq $true) {
+	Install-BIOSUpdate
+} else {
+	Exit 5
+}
