@@ -253,6 +253,25 @@ function Get-BIOSPasswordStatus {
 	}
 }
 
+function Get-RelativePath {
+<#
+	.SYNOPSIS
+		Get the relative path
+	
+	.DESCRIPTION
+		Returns the location of the currently running PowerShell script
+	
+	.NOTES
+		Additional information about the function.
+#>
+	
+	[CmdletBinding()][OutputType([string])]
+	param ()
+	
+	$Path = (split-path $SCRIPT:MyInvocation.MyCommand.Path -parent) + "\"
+	Return $Path
+}
+
 function Install-BIOSUpdate {
 <#
 	.SYNOPSIS
@@ -315,9 +334,11 @@ function Confirm-BIOSUpdate {
 	[CmdletBinding()]
 	param ()
 	
+	$RelativePath = Get-RelativePath
 	$InstalledVersion = [string]((Get-WmiObject Win32_BIOS).SMBIOSBIOSVersion)
 	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1]
 	[string]$BIOSVersion = (Get-ChildItem -Path $RelativePath | Where-Object { $_.Name -eq $Model } | Get-ChildItem -Filter *.exe)
+	$BIOSVersion = $BIOSVersion.Split("-")[1].split(".")[0]
 	If ($InstalledVersion -lt $BIOSVersion) {
 		Return $true
 	} else {
@@ -329,7 +350,7 @@ function Confirm-BIOSUpdate {
 #****************************************************************************************
 
 #Used to test bitlocker portion of this script. Leave Enable-Bitlocker commented out by default
-#Enable-Bitlocker
+Enable-Bitlocker
 #Test if system is a laptop, docking required, and is docked, otherwise exit with errcode 1
 If (((Confirm-Laptop) -eq $true) -and ($RequireDocking.IsPresent) -and ((Confirm-Docked) -eq $false)) {
 	Exit 1
