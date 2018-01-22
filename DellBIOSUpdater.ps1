@@ -5,20 +5,8 @@
 	.DESCRIPTION
 		This is intended for Dell systems. The script will query if the system is a laptop, is it docked if specified, is it BitLockered, and is the BIOS password set. These steps are taken as a cautious measure so end-users do not brick their laptops out of impatience. If it is bitlockered, the script will suspend Bitlocker. If a BIOS password is set, the system will use the password for flashing. If all tests pass, the script will execute the BIOS patch and then exit with a return code of 3010. If any of those parameters are not met, the script will exit with a return code of 1 or 2, thereby killing the task sequence.
 	
-	.PARAMETER BIOSLocation
-		UNC path to BIOS update files
-	
 	.PARAMETER BIOSPassword
 		BIOS Password
-	
-	.PARAMETER RequireDocking
-		Specifies if docking is required for laptop in order to apply the BIOS update
-	
-	.PARAMETER RecoveryKeyLocation
-		Path to the secured UNC location
-	
-	.PARAMETER BackupBitlockerPassword
-		Use this switch to backup the bitlocker recovery password to a text file located at the specified %RecoveryKeyLocation%.
 	
 	.NOTES
 		===========================================================================
@@ -39,11 +27,7 @@
 [CmdletBinding()]
 param
 (
-	[ValidateNotNullOrEmpty()][string]$BIOSLocation,
-	[string]$BIOSPassword = $null,
-	[switch]$RequireDocking,
-	[string]$RecoveryKeyLocation,
-	[switch]$BackupBitlockerPassword
+	[string]$BIOSPassword = $null
 )
 
 function Backup-BitlockerPassword {
@@ -71,6 +55,36 @@ function Backup-BitlockerPassword {
 		Remove-Item -Path $FileName -Force
 	}
 	(manage-bde -protectors -get $env:HOMEDRIVE -id ((Get-WmiObject -Namespace "Root\cimv2\Security\MicrosoftVolumeEncryption" -Class "Win32_EncryptableVolume").GetKeyProtectors(3).volumekeyprotectorID) | Where-Object { $_.trim() -ne "" }).Trim() | Where-Object { (($_ -like "*-*") -and ($_ -notlike "*ID*")) } | Where-Object { $_.trim() -ne "" } | Out-File -FilePath $FileName -Encoding UTF8 -Force
+}
+
+function Confirm-BIOSUpdate {
+<#
+	.SYNOPSIS
+		Confirm BIOS Update Requirement
+	
+	.DESCRIPTION
+		This function checks the current installed BIOS version against the version to be installed to verify the current version is less than the new version.
+	
+	.EXAMPLE
+				PS C:\> Confirm-BIOSUpdate
+	
+	.NOTES
+		Additional information about the function.
+#>
+	
+	[CmdletBinding()]
+	param ()
+	
+	$RelativePath = Get-RelativePath
+	$InstalledVersion = [string]((Get-WmiObject Win32_BIOS).SMBIOSBIOSVersion)
+	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1].Trim()
+	[string]$BIOSVersion = (Get-ChildItem -Path $RelativePath | Where-Object { $_.Name -like "*"+$Model+"*" } | Get-ChildItem -Filter *.exe)
+	$BIOSVersion = $BIOSVersion.Split("-")[1].split(".")[0]
+	If ($InstalledVersion -lt $BIOSVersion) {
+		Return $true
+	} else {
+		Return $false
+	}
 }
 
 function Confirm-Bitlocker {
@@ -289,7 +303,7 @@ function Install-BIOSUpdate {
 	param ()
 	
 	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1]
-	$File = Get-ChildItem -Path $BIOSLocation | Where-Object { $_.Name -eq $Model } | Get-ChildItem -Filter *.exe
+	$File = Get-ChildItem -Path $BIOSLocation | Where-Object { $_.Name -like "*"+$Model+"*" } | Get-ChildItem -Filter *.exe
 	#If the BIOS file does not exist, then exit program with error code 3
 	If ($File -ne $null) {
 		#Backup test to make sure BIOS file matches system model
@@ -316,56 +330,14 @@ function Install-BIOSUpdate {
 	}
 }
 
-function Confirm-BIOSUpdate {
-<#
-	.SYNOPSIS
-		Confirm BIOS Update Requirement
-	
-	.DESCRIPTION
-		This function checks the current installed BIOS version against the version to be installed to verify the current version is less than the new version.
-	
-	.EXAMPLE
-				PS C:\> Confirm-BIOSUpdate
-	
-	.NOTES
-		Additional information about the function.
-#>
-	
-	[CmdletBinding()]
-	param ()
-	
-	$RelativePath = Get-RelativePath
-	$InstalledVersion = [string]((Get-WmiObject Win32_BIOS).SMBIOSBIOSVersion)
-	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1]
-	[string]$BIOSVersion = (Get-ChildItem -Path $RelativePath | Where-Object { $_.Name -eq $Model } | Get-ChildItem -Filter *.exe)
-	$BIOSVersion = $BIOSVersion.Split("-")[1].split(".")[0]
-	If ($InstalledVersion -lt $BIOSVersion) {
-		Return $true
-	} else {
-		Return $false
-	}
-}
-
 #****************************************************************************************
 #****************************************************************************************
 
 #Used to test bitlocker portion of this script. Leave Enable-Bitlocker commented out by default
-Enable-Bitlocker
-#Test if system is a laptop, docking required, and is docked, otherwise exit with errcode 1
-If (((Confirm-Laptop) -eq $true) -and ($RequireDocking.IsPresent) -and ((Confirm-Docked) -eq $false)) {
-	Exit 1
-}
-#Pause Bitlocker if enabled
-$Bitlockered = Confirm-Bitlocker
-If ($Bitlockered -eq $true) {
-	If ($BackupBitlockerPassword.IsPresent) {
-		Backup-BitlockerPassword
-	}
-	#Disable bitlocker
-	$Bitlockered = Disable-Bitlocker
-	If ($Bitlockered -eq $true) {
-		Exit 2
-	}
+#Enable-Bitlocker
+#Set the BIOSLocation to the directory this script is being executed from
+If ($BIOSLocation -eq $null) {
+	$BIOSLocation = Get-RelativePath
 }
 #Confirm the version to be installed is greater than the version that is installed
 $BIOSUpdate = Confirm-BIOSUpdate
