@@ -3,15 +3,14 @@
 		Install PowerShell Gallery
 	
 	.DESCRIPTION
-		This script will install the necessary files and package provider necessary to access the Microsoft PowerShell Gallery
+		This script will install the necessary files and package provider necessary to access the Microsoft PowerShell Gallery.
 	
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.143
 		Created on:   	1/23/2018 10:33 AM
-		Created by:   	mpadmin
-		Organization:
-		Filename:
+		Created by:   	Mick Pletcher
+		Filename:		InstallPowerShellGallery.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
