@@ -91,7 +91,7 @@ function Install-MSIFile {
 	$Executable = $env:windir + "\System32\msiexec.exe"
 	$Parameters = "/i" + [char]32 + $File.Fullname + [char]32 + $Arguments
 	Write-Host "Installing"($File.Name).Trim()"....." -NoNewline
-	$ErrCode = (Start-Process -FilePath $Executable -ArgumentList $Arguments -Wait -Passthru).ExitCode
+	$ErrCode = (Start-Process -FilePath $Executable -ArgumentList $Parameters -Wait -Passthru).ExitCode
 	If (($ErrCode -eq 0) -or ($ErrCode -eq 3010)) {
 		Write-Host "Success" -ForegroundColor Yellow
 		Return $true
@@ -112,6 +112,11 @@ If ($Architecture -eq "32-bit") {
 	$File = Get-ChildItem -Path $RelativePath -Filter *x64.msi
 }
 #Install the PackageManagement
-Install-MSIFile -File $File -Arguments "/qb- /norestart"
-#Install nuget to gain access to the PowerShell Gallery
-Install-PackageProvider nuget -Force -Verbose
+$Results = Install-MSIFile -File $File -Arguments "/qb- /norestart"
+If ($Results -eq $true) {
+	#Install nuget to gain access to the PowerShell Gallery
+	Install-PackageProvider nuget -Force -Verbose
+	Exit 0
+} else {
+	Exit 1
+}
