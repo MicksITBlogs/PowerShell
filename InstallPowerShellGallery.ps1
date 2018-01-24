@@ -122,4 +122,4 @@ If ($Results -eq $true) {
 #Trust Microsoft PowerShell Gallery
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 #Install Dell BIOS Provider
-Install-Module -Name DellBIOSProvider
+Install-Module -Name ((Find-Module -Name DellBIOSProvider).Name) -Force -Verbose
