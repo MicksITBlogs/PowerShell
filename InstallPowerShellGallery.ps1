@@ -119,3 +119,7 @@ If ($Results -eq $true) {
 } else {
 	Exit 1
 }
+#Trust Microsoft PowerShell Gallery
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+#Install Dell BIOS Provider
+Install-Module -Name DellBIOSProvider
