@@ -17,199 +17,13 @@
 		===========================================================================
 		
 		Exitcode 0 : Success
-		Exitcode 1 : Laptop not docked
-		Exitcode 2 : Bitlocker failed to pause
-		Exitcode 3 : BIOS file is missing
-		Exitcode 4 : Unspecified BIOS update failure
-		Exitcode 5 : Installed BIOS version is equal to or greater than package version
-		Exitcode 6 : DellBIOSVerifier.ps1 exit code in the event the BIOS failed to update
+		Exitcode 1 : BIOS file is missing
 #>
 [CmdletBinding()]
 param
 (
 	[string]$BIOSPassword = $null
 )
-
-function Backup-BitlockerPassword {
-<#
-	.SYNOPSIS
-		Backup Bitlocker Recovery Password
-	
-	.DESCRIPTION
-		This will retrieve the Bitlocker recovery password and write it to a text file (computername.txt) located in a secured UNC path. This is a precautionary measure in the event something goes wrong and the system asks for the recovery key while booting up after the application of the BIOS update. Most  have a recovery key backup already in place, such as MBAM or AD, but in my experience, you cannot be safe enough when dealing with scenarios such as this.
-	
-	.NOTES
-		Additional information about the function.
-#>
-	
-	[CmdletBinding()]
-	param ()
-	
-	$FilePath = "\\drfs1\DesktopApplications\ProductionApplications\BitlockerRecoveryKeys"
-	If ($FilePath[$FilePath.Length - 1] -ne "\") {
-		$FileName = $FilePath + "\" + $env:COMPUTERNAME + ".txt"
-	} else {
-		$FileName = $FilePath + $env:COMPUTERNAME + ".txt"
-	}
-	If ((Test-Path $FileName) -eq $true) {
-		Remove-Item -Path $FileName -Force
-	}
-	(manage-bde -protectors -get $env:HOMEDRIVE -id ((Get-WmiObject -Namespace "Root\cimv2\Security\MicrosoftVolumeEncryption" -Class "Win32_EncryptableVolume").GetKeyProtectors(3).volumekeyprotectorID) | Where-Object { $_.trim() -ne "" }).Trim() | Where-Object { (($_ -like "*-*") -and ($_ -notlike "*ID*")) } | Where-Object { $_.trim() -ne "" } | Out-File -FilePath $FileName -Encoding UTF8 -Force
-}
-
-function Confirm-BIOSUpdate {
-<#
-	.SYNOPSIS
-		Confirm BIOS Update Requirement
-	
-	.DESCRIPTION
-		This function checks the current installed BIOS version against the version to be installed to verify the current version is less than the new version.
-	
-	.EXAMPLE
-				PS C:\> Confirm-BIOSUpdate
-	
-	.NOTES
-		Additional information about the function.
-#>
-	
-	[CmdletBinding()]
-	param ()
-	
-	$RelativePath = Get-RelativePath
-	$InstalledVersion = [string]((Get-WmiObject Win32_BIOS).SMBIOSBIOSVersion)
-	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1].Trim()
-	[string]$BIOSVersion = (Get-ChildItem -Path $RelativePath | Where-Object { $_.Name -like "*"+$Model+"*" } | Get-ChildItem -Filter *.exe)
-	$BIOSVersion = $BIOSVersion.Split("-")[1].split(".")[0]
-	If ($InstalledVersion -lt $BIOSVersion) {
-		Return $true
-	} else {
-		Return $false
-	}
-}
-
-function Confirm-Bitlocker {
-<#
-	.SYNOPSIS
-		Is system bitlockered
-	
-	.DESCRIPTION
-		A detailed description of the Confirm-Bitlocker function.
-	
-	.EXAMPLE
-		PS C:\> Confirm-Bitlocker
-#>
-	
-	[CmdletBinding()][OutputType([boolean])]
-	param ()
-	
-	#Get bitlocker status
-	$BDEStatus = manage-bde -status
-	if ((($BDEStatus) -like "*Protection On*") -and ($BDEStatus -like "*" + $Env:HOMEDRIVE + "*")) {
-		Return $true
-	} else {
-		Return $false
-	}
-}
-
-function Confirm-Docked {
-<#
-	.SYNOPSIS
-		Is laptop docked
-	
-	.DESCRIPTION
-		A detailed description of the Confirm-Docked function.
-	
-	.EXAMPLE
-				PS C:\> Confirm-Docked
-#>
-	
-	[CmdletBinding()][OutputType([boolean])]
-	param ()
-	
-	#Check if laptop is docked
-	if (((Get-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Control\IDConfigDB\CurrentDockInfo").DockingState) -eq 1) {
-		Return $true
-	} else {
-		Return $false
-	}
-}
-
-function Confirm-Laptop {
-<#
-	.SYNOPSIS
-		Test for Battery
-	
-	.DESCRIPTION
-		A detailed description of the Confirm-Laptop function.
-	
-	.NOTES
-		Additional information about the function.
-#>
-	
-	[CmdletBinding()][OutputType([boolean])]
-	param ()
-	
-	#Test if system is a laptop
-	#$Battery = Get-WmiObject Win32_Battery
-	if ((Get-WmiObject Win32_Battery) -ne $null) {
-		Return $true
-	} else {
-		Return $false
-	}
-}
-
-function Disable-Bitlocker {
-<#
-	.SYNOPSIS
-		Disable Bitlocker
-	
-	.DESCRIPTION
-		Pause bitlocker
-	
-	.NOTES
-		Additional information about the function.
-#>
-	
-	[CmdletBinding()]
-	param ()
-	
-	#Disable bitlocker
-	$BDEStatus = manage-bde -protectors -disable $env:HOMEDRIVE
-	#Get bitlocker status
-	$Bitlockered = Confirm-Bitlocker
-	If ($Bitlockered -eq $false) {
-		Return $false
-	} else {
-		Return $true
-	}
-	
-}
-
-function Enable-Bitlocker {
-<#
-	.SYNOPSIS
-		Enable Bitlocker
-	
-	.DESCRIPTION
-		Enable bitlocker
-	
-	.NOTES
-		Additional information about the function.
-#>
-	
-	[CmdletBinding()][OutputType([boolean])]
-	param ()
-	
-	#Enable Bitlocker
-	$BDEStatus = manage-bde -protectors -enable $env:HOMEDRIVE
-	#Get bitlocker status
-	$Bitlockered = Confirm-Bitlocker
-	If ($Bitlockered -eq $false) {
-		Return $true
-	} else {
-		Return $false
-	}
-}
 
 function Get-Architecture {
 <#
@@ -302,6 +116,7 @@ function Install-BIOSUpdate {
 	[CmdletBinding()]
 	param ()
 	
+	$BIOSLocation = Get-RelativePath
 	$Model = ((Get-WmiObject Win32_ComputerSystem).Model).split(" ")[1]
 	$File = Get-ChildItem -Path $BIOSLocation | Where-Object { $_.Name -like "*"+$Model+"*" } | Get-ChildItem -Filter *.exe
 	#If the BIOS file does not exist, then exit program with error code 3
@@ -320,30 +135,17 @@ function Install-BIOSUpdate {
 			If (($ErrCode -eq 0) -or ($ErrCode -eq 2)) {
 				Exit 3010
 			} else {
-				Exit 4
+				Exit $ErrCode
 			}
 		} else {
-			Exit 3
+			Exit 1
 		}
 	} else {
-		Exit 3
+		Exit 1
 	}
 }
 
 #****************************************************************************************
 #****************************************************************************************
 
-#Used to test bitlocker portion of this script. Leave Enable-Bitlocker commented out by default
-#Enable-Bitlocker
-#Set the BIOSLocation to the directory this script is being executed from
-If ($BIOSLocation -eq $null) {
-	$BIOSLocation = Get-RelativePath
-}
-#Confirm the version to be installed is greater than the version that is installed
-$BIOSUpdate = Confirm-BIOSUpdate
-#Install BIOS Update
-If ($BIOSUpdate -eq $true) {
-	Install-BIOSUpdate
-} else {
-	Exit 5
-}
+Install-BIOSUpdate
