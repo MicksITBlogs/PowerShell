@@ -295,18 +295,26 @@ If (Test-Path $env:ProgramFiles"\Mozilla Firefox\uninstall\helper.exe") {
 	Uninstall-EXE -DisplayName "Mozilla Firefox" -Executable ${env:ProgramFiles(x86)}"\Mozilla Firefox\uninstall\helper.exe" -Switches "/S"
 	Remove-Directory -Directory ${env:ProgramFiles(x86)}"\Mozilla Firefox" -Recurse
 }
+#Delete the programdata directory
 If ((Test-Path $env:ProgramData"\Mozilla") -eq $true) {
 	Remove-Directory -Directory $env:ProgramData"\Mozilla" -Recurse
 }
 #Install Firefox
+#Installer parameters
 $Parameters = "/INI=" + $RelativePath + "Configuration.ini"
 If ($Architecture -eq "32-Bit") {
+	#Install Firefox
 	Install-EXE -DisplayName "Mozilla Firefox 32-Bit" -Executable $RelativePath"32-Bit\"$File -Switches $Parameters
+	#Create autoconfig.js file to point to the Mozilla.cfg file 
 	New-AutoConfigFile -CFGFile $env:ProgramFiles"\Mozilla Firefox\defaults\pref\autoconfig.js"
+	#Create Mozilla.cfg file to customize Firefox
 	New-MozillaConfig -CFGFile $env:ProgramFiles"\Mozilla Firefox\\mozilla.cfg"
 } else {
 	$File = Get-ChildItem -Path ($RelativePath+$Architecture)
+	#Install Firefox
 	Install-EXE -DisplayName "Mozilla Firefox 64-Bit" -Executable $RelativePath"64-Bit\"$File -Switches $Parameters
+	#Create autoconfig.js file to point to the Mozilla.cfg file 
 	New-AutoConfigFile -CFGFile $env:ProgramFiles"\Mozilla Firefox\defaults\pref\autoconfig.js"
+	#Create Mozilla.cfg file to customize Firefox
 	New-MozillaConfig -CFGFile $env:ProgramFiles"\Mozilla Firefox\\mozilla.cfg"
 }
