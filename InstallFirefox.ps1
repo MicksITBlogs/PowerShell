@@ -24,12 +24,6 @@ function Get-Architecture {
 	
 	.DESCRIPTION
 		Returns whether the system architecture is 32-bit or 64-bit
-	
-	.EXAMPLE
-		Get-Architecture
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()][OutputType([string])]
@@ -48,9 +42,6 @@ function Get-RelativePath {
 	
 	.DESCRIPTION
 		Returns the location of the currently running PowerShell script
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()][OutputType([string])]
@@ -106,12 +97,6 @@ function New-AutoConfigFile {
 	
 	.PARAMETER CFGFile
 		filename and directory to create the CFG file
-	
-	.EXAMPLE
-		PS C:\> New-AutoConfigFile
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()]
@@ -135,12 +120,6 @@ function New-MozillaConfig {
 	
 	.PARAMETER CFGFile
 		Filename and directory of the configuration file
-	
-	.EXAMPLE
-		PS C:\> New-MozillaConfig
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()]
@@ -312,11 +291,9 @@ Stop-Processes -ProcessName Firefox
 If (Test-Path $env:ProgramFiles"\Mozilla Firefox\uninstall\helper.exe") {
 	Uninstall-EXE -DisplayName "Mozilla Firefox" -Executable $env:ProgramFiles"\Mozilla Firefox\uninstall\helper.exe" -Switches "/S"
 	Remove-Directory -Directory $env:ProgramFiles"\Mozilla Firefox" -Recurse
-	#Remove-Directory -Directory $env:ProgramFiles"\Mozilla Firefox" -Recurse 1
 } elseif (Test-Path ${env:ProgramFiles(x86)}"\Mozilla Firefox\uninstall\helper.exe") {
 	Uninstall-EXE -DisplayName "Mozilla Firefox" -Executable ${env:ProgramFiles(x86)}"\Mozilla Firefox\uninstall\helper.exe" -Switches "/S"
 	Remove-Directory -Directory ${env:ProgramFiles(x86)}"\Mozilla Firefox" -Recurse
-	#Remove-Directory -Directory ${env:ProgramFiles(x86)}"\Mozilla Firefox" -Recurse 1
 }
 If ((Test-Path $env:ProgramData"\Mozilla") -eq $true) {
 	Remove-Directory -Directory $env:ProgramData"\Mozilla" -Recurse

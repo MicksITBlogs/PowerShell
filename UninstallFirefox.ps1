@@ -24,12 +24,6 @@ function Get-Architecture {
 	
 	.DESCRIPTION
 		Returns whether the system architecture is 32-bit or 64-bit
-	
-	.EXAMPLE
-		Get-Architecture
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()][OutputType([string])]
@@ -48,9 +42,6 @@ function Get-RelativePath {
 	
 	.DESCRIPTION
 		Returns the location of the currently running PowerShell script
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()][OutputType([string])]
@@ -106,12 +97,6 @@ function New-AutoConfigFile {
 	
 	.PARAMETER CFGFile
 		filename and directory to create the CFG file
-	
-	.EXAMPLE
-		PS C:\> New-AutoConfigFile
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()]
@@ -135,12 +120,6 @@ function New-MozillaConfig {
 	
 	.PARAMETER CFGFile
 		Filename and directory of the configuration file
-	
-	.EXAMPLE
-		PS C:\> New-MozillaConfig
-	
-	.NOTES
-		Additional information about the function.
 #>
 	
 	[CmdletBinding()]
