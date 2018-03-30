@@ -13,6 +13,7 @@
 		Filename:		InstallFirefox.ps1
 		===========================================================================
 #>
+
 [CmdletBinding()]
 param ()
 
@@ -33,6 +34,53 @@ function Get-Architecture {
 	$OSArchitecture = $OSArchitecture.OSArchitecture
 	Return $OSArchitecture
 	#Returns 32-bit or 64-bit
+}
+
+function Get-MSIInformation {
+<#
+	.SYNOPSIS
+		Retrieve MSI Information
+	
+	.DESCRIPTION
+		This will query the MSI database for information
+	
+	.PARAMETER MSI
+		Name of MSI file
+	
+	.PARAMETER Property
+		MSI property to retrieve
+	
+	.EXAMPLE
+		PS C:\> Get-MSIInformation
+	
+	.NOTES
+		Additional information about the function.
+#>
+	
+	[CmdletBinding()]
+	param
+	(
+		[ValidateNotNullOrEmpty()][System.IO.FileInfo]$MSI,
+		[ValidateSet('ProductCode', 'ProductVersion', 'ProductName', 'Manufacturer', 'ProductLanguage', 'FullVersion')][string]$Property
+	)
+	
+	# Read property from MSI database
+	$WindowsInstaller = New-Object -ComObject WindowsInstaller.Installer
+	$MSIDatabase = $WindowsInstaller.GetType().InvokeMember("OpenDatabase", "InvokeMethod", $null, $WindowsInstaller, @($MSI.FullName, 0))
+	$Query = "SELECT Value FROM Property WHERE Property = '$($Property)'"
+	$View = $MSIDatabase.GetType().InvokeMember("OpenView", "InvokeMethod", $null, $MSIDatabase, ($Query))
+	$View.GetType().InvokeMember("Execute", "InvokeMethod", $null, $View, $null)
+	$Record = $View.GetType().InvokeMember("Fetch", "InvokeMethod", $null, $View, $null)
+	$Value = $Record.GetType().InvokeMember("StringData", "GetProperty", $null, $Record, 1)
+	
+	# Commit database and close view
+	$MSIDatabase.GetType().InvokeMember("Commit", "InvokeMethod", $null, $MSIDatabase, $null)
+	$View.GetType().InvokeMember("Close", "InvokeMethod", $null, $View, $null)
+	$MSIDatabase = $null
+	$View = $null
+	
+	# Return the value
+	return $Value
 }
 
 function Get-RelativePath {
@@ -283,6 +331,44 @@ function Uninstall-EXE {
 	}
 }
 
+function Uninstall-MSI {
+<#
+	.SYNOPSIS
+		Uninstall-MSI
+	
+	.DESCRIPTION
+		Uninstalls an MSI application using the MSI file
+	
+	.PARAMETER MSI
+		A description of the MSI parameter.
+	
+	.PARAMETER Switches
+		A description of the Switches parameter.
+	
+	.NOTES
+		Additional information about the function.
+#>
+	
+	param
+	(
+		[String]$MSI,
+		[String]$Switches
+	)
+	
+	$DisplayName = ([string](Get-MSIInformation -MSI $MSI -Property ProductName)).Trim()
+	$Executable = $Env:windir + "\system32\msiexec.exe"
+	$Parameters = "/x" + [char]32 + [char]34 + $MSI + [char]34 + [char]32 + $Switches
+	Write-Host "Uninstall"$DisplayName"....." -NoNewline
+	$ErrCode = (Start-Process -FilePath $Executable -ArgumentList $Parameters -Wait -Passthru).ExitCode
+	If (($ErrCode -eq 0) -or ($ErrCode -eq 3010)) {
+		Write-Host "Success" -ForegroundColor Yellow
+	} elseIf ($ErrCode -eq 1605) {
+		Write-Host "Not Present" -ForegroundColor Green
+	} else {
+		Write-Host "Failed with error code "$ErrCode -ForegroundColor Red
+	}
+}
+
 $Architecture = Get-Architecture
 $RelativePath = Get-RelativePath
 #Kill Firefox process
@@ -295,6 +381,7 @@ If (Test-Path $env:ProgramFiles"\Mozilla Firefox\uninstall\helper.exe") {
 	Uninstall-EXE -DisplayName "Mozilla Firefox" -Executable ${env:ProgramFiles(x86)}"\Mozilla Firefox\uninstall\helper.exe" -Switches "/S"
 	Remove-Directory -Directory ${env:ProgramFiles(x86)}"\Mozilla Firefox" -Recurse
 }
+Uninstall-MSI -MSI $RelativePath"Firefox-35.0.1-en-US.msi" -Switches "/qb- /norestart"
 #Delete the programdata directory
 If ((Test-Path $env:ProgramData"\Mozilla") -eq $true) {
 	Remove-Directory -Directory $env:ProgramData"\Mozilla" -Recurse
@@ -304,6 +391,7 @@ If ((Test-Path $env:ProgramData"\Mozilla") -eq $true) {
 $Parameters = "/INI=" + $RelativePath + "Configuration.ini"
 If ($Architecture -eq "32-Bit") {
 	#Install Firefox
+	$File = Get-ChildItem -Path ($RelativePath + $Architecture)
 	Install-EXE -DisplayName "Mozilla Firefox 32-Bit" -Executable $RelativePath"32-Bit\"$File -Switches $Parameters
 	#Create autoconfig.js file to point to the Mozilla.cfg file 
 	New-AutoConfigFile -CFGFile $env:ProgramFiles"\Mozilla Firefox\defaults\pref\autoconfig.js"
