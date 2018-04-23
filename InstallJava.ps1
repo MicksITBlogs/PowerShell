@@ -3,17 +3,17 @@
 		Install Oracle Java
 	
 	.DESCRIPTION
-		Uninstall the old version of Java and then install the new version.
+		Uninstall the old version of Java and then install the new version. The script identifies the x86 and x64 installers thereby making it easy for the admin to drop new installers into the relative directory when needing to update. At that point, update the SCCM content, along with the detection method and it will redeploy. 
 	
 	.PARAMETER Parameters
-		Java installation parameters
+		Java installation commandline parameters
 	
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.145
 		Created on:   	2/20/2018 10:53 AM
 		Created by:   	Mick Pletcher
-		Filename:		InstallJava.ps1
+		Filename:	InstallJava.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
