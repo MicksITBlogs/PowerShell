@@ -19,7 +19,7 @@
 [CmdletBinding()]
 param
 (
-	[string]$Parameters = 'INSTALL_SILENT=Enable AUTO_UPDATE=Enable WEB_JAVA=Enable WEB_ANALYTICS=Disable EULA=Disable REBOOT=Disable'
+	[string]$Parameters = 'INSTALL_SILENT=Enable AUTO_UPDATE=Disable WEB_JAVA=Enable WEB_ANALYTICS=Disable EULA=Disable REBOOT=Disable'
 )
 
 function Get-Architecture {
@@ -146,8 +146,8 @@ $RelativePath = Get-RelativePath
 Uninstall-MSIByName -ApplicationName "Java 6" -Switches "/qb- /norestart"
 Uninstall-MSIByName -ApplicationName "Java 7" -Switches "/qb- /norestart"
 Uninstall-MSIByName -ApplicationName "Java 8" -Switches "/qb- /norestart"
-$Javax86 = $RelativePath + (Get-ChildItem -Path \\drfs1\DesktopApplications\ProductionApplications\Oracle\Java -Filter "*i586*").Name
-$Javax64 = $RelativePath + (Get-ChildItem -Path \\drfs1\DesktopApplications\ProductionApplications\Oracle\Java -Filter "*x64*").Name
+$Javax86 = $RelativePath + (Get-ChildItem -Path $RelativePath -Filter "*i586*").Name
+$Javax64 = $RelativePath + (Get-ChildItem -Path $RelativePath -Filter "*x64*").Name
 If ($Architecture -eq "32-Bit") {
 	Install-EXE -DisplayName "Java Runtime Environment x86" -Executable $Javax86 -Switches $Parameters
 } else {
