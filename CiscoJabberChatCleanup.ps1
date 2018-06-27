@@ -21,9 +21,10 @@
 	.NOTES
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.3.131
-		Created on:   	12/13/2016 12:20 PM 
+		Created on:   	12/13/2016 12:20 PM
 		Created by:   	Mick Pletcher
-		Filename:	CiscoJabberChatCleanup.ps1
+		Organization:
+		Filename:		CiscoJabberChatCleanup.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
@@ -191,40 +192,38 @@ function Remove-ChatFiles {
 	[CmdletBinding()]
 	param ()
 	
-	#$JabberChatHistory = $env:USERPROFILE + '\AppData\Local\Cisco\Unified Communications\Jabber\CSF\History'
-	#Get Jabber Chat history files
-	$ChatHistoryFiles = Get-ChildItem -Path $env:USERPROFILE'\AppData\Local\Cisco\Unified Communications\Jabber\CSF\History' -Filter *.db
-	If ($ChatHistoryFiles -ne $null) {
-		foreach ($File in $ChatHistoryFiles) {
-			$Output = "Deleting " + $File.Name + "....."
-			If ($SecureDelete.IsPresent) {
-				$RelativePath = Get-RelativePath
-				$Architecture = Get-Architecture
-				If ($Architecture -eq "32-bit") {
-					$sDelete = [char]34 + $RelativePath + "sdelete.exe" + [char]34
+	$Users = Get-ChildItem -Path $env:HOMEDRIVE"\users" -Exclude 'Administrator', 'public', 'iCreateService', 'sccmadmin', 'Default'
+	foreach ($User in $Users) {
+		#Get Jabber Chat history files
+		$History = $User.FullName + '\AppData\Local\Cisco\Unified Communications\Jabber\CSF\History'
+		$ChatHistoryFiles = Get-ChildItem -Path $History -Filter *.db
+		If ($ChatHistoryFiles -ne $null) {
+			foreach ($File in $ChatHistoryFiles) {
+				$Output = "Deleting " + $File.Name + "....."
+				If ($SecureDelete.IsPresent) {
+					$RelativePath = Get-RelativePath
+					$sDelete = [char]34 + $env:windir + "\system32\" + "sdelete64.exe" + [char]34
+					$Switches = "-accepteula -p" + [char]32 + $SecureDeletePasses + [char]32 + "-q" + [char]32 + [char]34 + $File.FullName + [char]34
+					$ErrCode = (Start-Process -FilePath $sDelete -ArgumentList $Switches -Wait -PassThru).ExitCode
+					If (($ErrCode -eq 0) -and ((Test-Path $File.FullName) -eq $false)) {
+						$Output += "Success"
+					} else {
+						$Output += "Failed"
+					}
 				} else {
-					$sDelete = [char]34 + $RelativePath + "sdelete64.exe" + [char]34
+					Remove-Item -Path $File.FullName -Force | Out-Null
+					If ((Test-Path $File.FullName) -eq $false) {
+						$Output += "Success"
+					} else {
+						$Output += "Failed"
+					}
 				}
-				$Switches = "-accepteula -p" + [char]32 + $SecureDeletePasses + [char]32 + "-q" + [char]32 + [char]34 + $File.FullName + [char]34
-				$ErrCode = (Start-Process -FilePath $sDelete -ArgumentList $Switches -Wait -PassThru).ExitCode
-				If (($ErrCode -eq 0) -and ((Test-Path $File.FullName) -eq $false)) {
-					$Output += "Success"
-				} else {
-					$Output += "Failed"
-				}
-			} else {
-				Remove-Item -Path $File.FullName -Force | Out-Null
-				If ((Test-Path $File.FullName) -eq $false) {
-					$Output += "Success"
-				} else {
-					$Output += "Failed"
-				}
+				Write-Output $Output
 			}
+		} else {
+			$Output = "No Chat History Present"
 			Write-Output $Output
 		}
-	} else {
-		$Output = "No Chat History Present"
-		Write-Output $Output
 	}
 }
 
@@ -246,19 +245,23 @@ function Remove-MyJabberFilesFolder {
 	[CmdletBinding()]
 	param ()
 	
-	$MyJabberFilesFolder = Get-Item $env:USERPROFILE'\Documents\MyJabberFiles' -ErrorAction SilentlyContinue
-	If ($MyJabberFilesFolder -ne $null) {
-		$Output = "Deleting " + $MyJabberFilesFolder.Name + "....."
-		Remove-Item -Path $MyJabberFilesFolder -Recurse -Force | Out-Null
-		If ((Test-Path $MyJabberFilesFolder.FullName) -eq $false) {
-			$Output += "Success"
+	$Users = Get-ChildItem -Path $env:HOMEDRIVE"\users" -Exclude 'Administrator', 'public', 'iCreateService', 'sccmadmin', 'Default'
+	foreach ($User in $Users) {
+		$Folder = $User.FullName + '\Documents\MyJabberFiles'
+		$MyJabberFilesFolder = Get-Item $Folder -ErrorAction SilentlyContinue
+		If ($MyJabberFilesFolder -ne $null) {
+			$Output = "Deleting " + $MyJabberFilesFolder.Name + "....."
+			Remove-Item -Path $MyJabberFilesFolder -Recurse -Force | Out-Null
+			If ((Test-Path $MyJabberFilesFolder.FullName) -eq $false) {
+				$Output += "Success"
+			} else {
+				$Output += "Failed"
+			}
+			Write-Output $Output
 		} else {
-			$Output += "Failed"
+			$Output = "No MyJabberFiles folder present"
+			Write-Output $Output
 		}
-		Write-Output $Output
-	} else {
-		$Output = "No MyJabberFiles folder present"
-		Write-Output $Output
 	}
 }
 
