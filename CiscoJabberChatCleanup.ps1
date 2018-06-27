@@ -22,6 +22,7 @@
 		===========================================================================
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.3.131
 		Created on:   	12/13/2016 12:20 PM
+		Updated on:	12/27/2018 3:34 PM
 		Created by:   	Mick Pletcher
 		Filename:		CiscoJabberChatCleanup.ps1
 		===========================================================================
