@@ -23,7 +23,6 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2016 v5.3.131
 		Created on:   	12/13/2016 12:20 PM
 		Created by:   	Mick Pletcher
-		Organization:
 		Filename:		CiscoJabberChatCleanup.ps1
 		===========================================================================
 #>
@@ -268,9 +267,9 @@ function Remove-MyJabberFilesFolder {
 Clear-Host
 #Kill Cisco Jabber Process
 $JabberClosed = Close-Process -ProcessName CiscoJabber
-#Delete .DB files from %USERNAME%\AppData\Local\Cisco\Unified Communications\Jabber\CSF\History
+#Delete .DB files from each %USERNAME%\AppData\Local\Cisco\Unified Communications\Jabber\CSF\History
 Remove-ChatFiles
-#Delete %USERNAME%\documents\MyJabberFiles directory
+#Delete each %USERNAME%\documents\MyJabberFiles directory
 Remove-MyJabberFilesFolder
 #Reopen Jabber if it was open
 If ($JabberClosed -eq $true) {
