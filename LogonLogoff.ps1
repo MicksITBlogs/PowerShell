@@ -13,7 +13,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.142
 		Created on:   	10/22/2018 10:13 AM
 		Created by:   	Mick Pletcher
-		Filename:		LogonReport.ps1
+		Filename:	LogonReport.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
