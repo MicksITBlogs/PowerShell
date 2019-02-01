@@ -10,7 +10,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.142
 		Created on:   	1/30/2019 3:30 PM
 		Created by:   	Mick Pletcher
-		Filename:		PingInstall.ps1
+		Filename:	PingInstall.ps1
 		===========================================================================
 #>
 
