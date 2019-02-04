@@ -26,7 +26,6 @@ foreach ($Item in $Profiles) {
 	$ProfileArray += $object
 }
 $ProfileArray
-($env:SystemDrive + '\users\' + $Item.Profile + '\DefaultPrinter.csv')
 foreach ($Item in $ProfileArray) {
 	Export-Csv -InputObject $Item -Path ($env:SystemDrive + '\users\' + $Item.Profile + '\DefaultPrinter.csv') -NoTypeInformation -Force
 }
