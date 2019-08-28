@@ -24,14 +24,17 @@ param
 )
 
 Import-Module Dism
+#Extract the name of the directory the $File resides in
 $Directory = $File.substring(0, $File.LastIndexOf('\'))
 #Mount and assign drive letter
 $Drive = ((Mount-DiskImage -ImagePath $File) | Get-Volume).DriveLetter
+#Delete old Mount directory
+Remove-Item -Path ($Directory + '\Mount') -Recurse -Force -ErrorAction SilentlyContinue
 #Create Mount folder to copy WIM contents to
-Remove-Item -Path ($Directory + '\Mount') -Recurse -Force
 New-Item -Path ($Directory + '\Mount') -ItemType Directory -Force
-#Copy boot.WIM file to $Directory
+#Delete old WIM file
 Remove-Item -Path ($Directory + '\boot.wim') -ErrorAction SilentlyContinue -Force
+#Copy boot.WIM file to $Directory
 Copy-Item -Path ($Drive + ':\sources\boot.wim') -Destination $Directory -Force
 #Turn off read only
 Set-ItemProperty -Path ($Directory + '\boot.wim') -Name IsReadOnly -Value $false
@@ -43,3 +46,9 @@ Copy-Item -Path ($Drive + ':\SMS\data') -Destination ($Directory + '\Mount\sms')
 Dismount-WindowsImage -Path ($Directory + '\Mount') -Save
 #Dismount disk image
 Dismount-DiskImage -ImagePath $File
+#Delete the old wim if it exists
+Remove-Item -Path ((Get-ChildItem -Path ($Directory + '\' + ((Get-ChildItem -path $File -ErrorAction SilentlyContinue).Basename) + '.wim')).FullName) -Force -ErrorAction SilentlyContinue
+#Rename boot.wim to match the basename of the ISO
+Rename-Item -Path ($Directory + '\boot.wim') -NewName ((Get-ChildItem -Path $File).BaseName + '.wim') -Force
+#Delete the Mount folder
+Remove-Item -Path ($Directory + '\Mount') -Recurse -Force -ErrorAction SilentlyContinue
