@@ -37,7 +37,7 @@
 		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.142
 		Created on:   	10/3/2019 12:04 PM
 		Created by:   	Mick Pletcher
-		Filename:		SCCMDuplicateCleanup.ps1
+		Filename:	SCCMDuplicateCleanup.ps1
 		===========================================================================
 #>
 [CmdletBinding()]
@@ -65,8 +65,8 @@ If ($List -ne '') {
 	New-PSDrive -Name $SiteCode -PSProvider 'AdminUI.PS.Provider\CMSite' -Root $SCCMServer -Description $SCCMSiteDescription | Out-Null
 	Set-Location -Path ($SiteCode + ':')
 	#Test with output to screen before enabling the other line that also deletes each item
-	#$List | ForEach-Object { (Get-CMDevice -ResourceId $_.MachineID -Fast).Name }
-	$List | ForEach-Object { Get-CMDevice -ResourceId $_.MachineID -Fast | Remove-CMDevice -Confirm:$false -Force }
+	$List | ForEach-Object { (Get-CMDevice -ResourceId $_.MachineID -Fast).Name }
+	#$List | ForEach-Object { Get-CMDevice -ResourceId $_.MachineID -Fast | Remove-CMDevice -Confirm:$false -Force }
 	Remove-PSDrive -Name $SiteCode -Force
 	Write-Output ($List.Name | Sort-Object)
 } else {
