@@ -70,11 +70,11 @@ If ($LatestBackup -ne $null) {
 		}
 	} else {
 		#SQL Server did not perform a backup within the designated timespan
-		Write-Output 'Latest Backup does not exist'
+		Write-Output ('Latest Backup for' + [char]32 + $SQLDatabase + [char]32 + 'database' + [char]32 + 'on' + [char]32 + $SQLServer + [char]32 + 'has failed')
 		Exit 1
 	}
 } else {
 	#Backups are not being performed
-	Write-Output 'No backups available'
+	Write-Output ('No backups available for' + [char]32 + $SQLDatabase + [char]32 + 'database' + [char]32 + 'on' + [char]32 + $SQLServer)
 	Exit 1
 }
