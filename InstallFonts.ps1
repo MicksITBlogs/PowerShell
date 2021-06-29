@@ -1,72 +1,108 @@
 ﻿<#
 	.SYNOPSIS
-		Install Fonts
+		Install Open Text and True Type Fonts
 	
 	.DESCRIPTION
-		Install all designated fonts that reside in the same directory as this script. By designated, this means TTF, OTF, and such defined in the -FontType parameter for the InstallFonts function. 
+		This script will install OTF and TTF fonts that exist in the same directory as the script.
 	
 	.NOTES
 		===========================================================================
-		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2017 v5.4.145
-		Created on:   	2/14/2018 2:39 PM
+		Created with: 	SAPIEN Technologies, Inc., PowerShell Studio 2021 v5.8.187
+		Created on:   	6/24/2021 9:36 AM
 		Created by:   	Mick Pletcher
 		Filename:     	InstallFonts.ps1
 		===========================================================================
 #>
-[CmdletBinding()]
-param ()
 
-function Get-RelativePath {
 <#
 	.SYNOPSIS
-		Get the relative path
+		Install the font
 	
 	.DESCRIPTION
-		Returns the location of the currently running PowerShell script
+		This function will attempt to install the font by copying it to the c:\windows\fonts directory and then registering it in the registry. This also outputs the status of each step for easy tracking. 
+	
+	.PARAMETER FontFile
+		Name of the Font File to install
+	
+	.EXAMPLE
+				PS C:\> Install-Font -FontFile $value1
+	
+	.NOTES
+		Additional information about the function.
 #>
+function Install-Font {
+	param
+	(
+		[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][System.IO.FileInfo]$FontFile
+	)
 	
-	[CmdletBinding()][OutputType([string])]
-	param ()
-	
-	$Path = (split-path $SCRIPT:MyInvocation.MyCommand.Path -parent) + "\"
-	Return $Path
-}
-
-Function Install-Fonts {
-      <#  
-      .SYNOPSIS  
-           Install-Fonts  
-      .DESCRIPTION  
-           Installs all fonts in the designated source directory.  
-      .EXAMPLE  
-           Install-Fonts -SourceDirectory "c:\Fonts" -FontType "ttf"  
-      #>	
-	
-	Param ([String]$SourceDirectory,
-		[String]$FontType)
-	
-	$FontType = "*." + $FontType
-	$sa = new-object -comobject shell.application
-	$Fonts = $sa.NameSpace(0x14)
-	$Files = Get-ChildItem $SourceDirectory -Filter $FontType
-	For ($i = 0; $i -lt $Files.Count; $i++) {
-		$FontName = $Files[$i].Name.ToString().Trim()
-		Write-Host "Installing"$FontName"....." -NoNewline
-		$File = $Env:windir + "\Fonts\" + $Files[$i].Name
-		If ((Test-Path $File) -eq $false) {
-			$Fonts.CopyHere($Files[$i].FullName)
-			If ((Test-Path $File) -eq $true) {
-				Write-Host "Installed" -ForegroundColor Yellow
+	#Get Font Name from the File's Extended Attributes
+	$oShell = new-object -com shell.application
+	$Folder = $oShell.namespace($FontFile.DirectoryName)
+	$Item = $Folder.Items().Item($FontFile.Name)
+	$FontName = $Folder.GetDetailsOf($Item, 21)
+	try {
+		switch ($FontFile.Extension) {
+			".ttf" {$FontName = $FontName + [char]32 + '(TrueType)'}
+			".otf" {$FontName = $FontName + [char]32 + '(OpenType)'}
+		}
+		$Copy = $true
+		Write-Host ('Copying' + [char]32 + $FontFile.Name + '.....') -NoNewline
+		Copy-Item -Path $fontFile.FullName -Destination ("C:\Windows\Fonts\" + $FontFile.Name) -Force
+		#Test if font is copied over
+		If ((Test-Path ("C:\Windows\Fonts\" + $FontFile.Name)) -eq $true) {
+			Write-Host ('Success') -Foreground Yellow
+		} else {
+			Write-Host ('Failed') -ForegroundColor Red
+		}
+		$Copy = $false
+		#Test if font registry entry exists
+		If ((Get-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -ErrorAction SilentlyContinue) -ne $null) {
+			#Test if the entry matches the font file name
+			If ((Get-ItemPropertyValue -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts") -eq $FontFile.Name) {
+				Write-Host ('Adding' + [char]32 + $FontName + [char]32 + 'to the registry.....') -NoNewline
+				Write-Host ('Success') -ForegroundColor Yellow
 			} else {
-				Write-Host "Failed" -ForegroundColor Red
-				Exit 1
+				$AddKey = $true
+				Remove-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -Force
+				Write-Host ('Adding' + [char]32 + $FontName + [char]32 + 'to the registry.....') -NoNewline
+				New-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value $FontFile.Name -Force -ErrorAction SilentlyContinue | Out-Null
+				If ((Get-ItemPropertyValue -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts") -eq $FontFile.Name) {
+					Write-Host ('Success') -ForegroundColor Yellow
+				} else {
+					Write-Host ('Failed') -ForegroundColor Red
+				}
+				$AddKey = $false
 			}
 		} else {
-			Write-Host "Already Installed" -ForegroundColor Yellow
+			$AddKey = $true
+			Write-Host ('Adding' + [char]32 + $FontName + [char]32 + 'to the registry.....') -NoNewline
+			New-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value $FontFile.Name -Force -ErrorAction SilentlyContinue | Out-Null
+			If ((Get-ItemPropertyValue -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts") -eq $FontFile.Name) {
+				Write-Host ('Success') -ForegroundColor Yellow
+			} else {
+				Write-Host ('Failed') -ForegroundColor Red
+			}
+			$AddKey = $false
 		}
+		
+	} catch {
+		If ($Copy -eq $true) {
+			Write-Host ('Failed') -ForegroundColor Red
+			$Copy = $false
+		}
+		If ($AddKey -eq $true) {
+			Write-Host ('Failed') -ForegroundColor Red
+			$AddKey = $false
+		}
+		write-warning $_.exception.message
 	}
+	Write-Host
 }
 
-Clear-Host
-$RelativePath = Get-RelativePath
-$Success = Install-Fonts -SourceDirectory $RelativePath -FontType "ttf"
+#Get a list of all font files relative to this script and parse through the list
+foreach ($FontItem in (Get-ChildItem -Path $PSScriptRoot | Where-Object {
+			($_.Name -like '*.ttf') -or ($_.Name -like '*.OTF')
+		})) {
+	Install-Font -FontFile $FontItem
+}
