@@ -23,7 +23,7 @@ Param
 
 #Retrieves a list of users from AD and filters them by association with the specied security groups. The match can be associated with multiple groups separated with a pipe
 #Example: Where-Object {$_.MemberOf -match '|Domain Admins|System Admins|'}
-$Users = Get-ADUser -Filter * -Properties MemberOf | Where-Object {$_.MemberOf -match 'Super Admins|Domain Admins|'}
+$Users = Get-ADUser -Filter * -Properties MemberOf | Where-Object {$_.MemberOf -match 'Super Admins|Domain Admins'}
 #Filter out all accounts that are older than the specified $Days
 $Users | ForEach-Object {
 	If ((New-TimeSpan -Start ((Get-ADUser -Identity $_.SamAccountName -Properties whenCreated).whenCreated) -End (Get-Date)).Days -le $Days) {
