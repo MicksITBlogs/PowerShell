@@ -46,53 +46,44 @@ function Install-Font {
 			".ttf" {$FontName = $FontName + [char]32 + '(TrueType)'}
 			".otf" {$FontName = $FontName + [char]32 + '(OpenType)'}
 		}
+		$fontTarget = $env:windir + "\Fonts\" + $FontFile.Name
+		$regPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
+		$regValue = $FontFile.Name
+		$regName = $FontName
+
 		$Copy = $true
-		Write-Host ('Copying' + [char]32 + $FontFile.Name + '.....') -NoNewline
-		Copy-Item -Path $fontFile.FullName -Destination ("C:\Windows\Fonts\" + $FontFile.Name) -Force
-		#Test if font is copied over
-		If ((Test-Path ("C:\Windows\Fonts\" + $FontFile.Name)) -eq $true) {
+		Write-Host ("Copying $($FontFile.Name).....") -NoNewline
+		Copy-Item -Path $fontFile.FullName -Destination ($fontTarget) -Force
+		# Test if font is copied over
+		If ((Test-Path ($fontTarget)) -eq $true) {
 			Write-Host ('Success') -Foreground Yellow
 		} else {
-			Write-Host ('Failed') -ForegroundColor Red
+			Write-Host ('Failed to copy file') -ForegroundColor Red
 		}
 		$Copy = $false
-		#Test if font registry entry exists
-		If ((Get-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -ErrorAction SilentlyContinue) -ne $null) {
-			#Test if the entry matches the font file name
-			If ((Get-ItemPropertyValue -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts") -eq $FontFile.Name) {
-				Write-Host ('Adding' + [char]32 + $FontName + [char]32 + 'to the registry.....') -NoNewline
-				Write-Host ('Success') -ForegroundColor Yellow
-			} else {
-				$AddKey = $true
-				Remove-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -Force
-				Write-Host ('Adding' + [char]32 + $FontName + [char]32 + 'to the registry.....') -NoNewline
-				New-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value $FontFile.Name -Force -ErrorAction SilentlyContinue | Out-Null
-				If ((Get-ItemPropertyValue -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts") -eq $FontFile.Name) {
-					Write-Host ('Success') -ForegroundColor Yellow
-				} else {
-					Write-Host ('Failed') -ForegroundColor Red
-				}
-				$AddKey = $false
-			}
-		} else {
-			$AddKey = $true
-			Write-Host ('Adding' + [char]32 + $FontName + [char]32 + 'to the registry.....') -NoNewline
-			New-ItemProperty -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value $FontFile.Name -Force -ErrorAction SilentlyContinue | Out-Null
-			If ((Get-ItemPropertyValue -Name $FontName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts") -eq $FontFile.Name) {
-				Write-Host ('Success') -ForegroundColor Yellow
-			} else {
-				Write-Host ('Failed') -ForegroundColor Red
-			}
-			$AddKey = $false
+
+		# Create Registry item for font
+		Write-Host ("Adding $FontName to the registry.....") -NoNewline
+		If (!(Test-Path $regPath)) {
+			New-Item -Path $regPath -Force | Out-Null
 		}
+		New-ItemProperty -Path $regPath -Name $regName -Value $regValue -PropertyType string -Force -ErrorAction SilentlyContinue| Out-Null
+
+		$AddKey = $true
+		If ((Get-ItemPropertyValue -Name $regName -Path $regPath) -eq $regValue) {
+			Write-Host ('Success') -ForegroundColor Yellow
+		} else {
+			Write-Host ('Failed to set registry key') -ForegroundColor Red
+		}
+		$AddKey = $false
 		
 	} catch {
 		If ($Copy -eq $true) {
-			Write-Host ('Failed') -ForegroundColor Red
+			Write-Host ('Font file copy Failed') -ForegroundColor Red
 			$Copy = $false
 		}
 		If ($AddKey -eq $true) {
-			Write-Host ('Failed') -ForegroundColor Red
+			Write-Host ('Registry Key Creation Failed') -ForegroundColor Red
 			$AddKey = $false
 		}
 		write-warning $_.exception.message
