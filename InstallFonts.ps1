@@ -23,9 +23,12 @@
 	
 	.PARAMETER FontFile
 		Name of the Font File to install
+
+	.PARAMETER InstallSystemWide
+		$true for system-wide installation, $false for installation in the local user profile - which does not require admin rights. Requires Windows 10 with at least 17704.
 	
 	.EXAMPLE
-				PS C:\> Install-Font -FontFile $value1
+				PS C:\> Install-Font -FontFile $value1 $true
 	
 	.NOTES
 		Additional information about the function.
@@ -33,7 +36,8 @@
 function Install-Font {
 	param
 	(
-		[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][System.IO.FileInfo]$FontFile
+		[Parameter(Mandatory)][ValidateNotNullOrEmpty()][System.IO.FileInfo]$FontFile,
+		[Parameter(Mandatory)][Boolean]$InstallSystemWide
 	)
 	
 	#Get Font Name from the File's Extended Attributes
@@ -46,12 +50,25 @@ function Install-Font {
 			".ttf" {$FontName = $FontName + [char]32 + '(TrueType)'}
 			".otf" {$FontName = $FontName + [char]32 + '(OpenType)'}
 		}
-		$fontTarget = $env:windir + "\Fonts\" + $FontFile.Name
-		$regPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
-		$regValue = $FontFile.Name
-		$regName = $FontName
+		if ($InstallSystemWide) {
+				$fontTarget = $env:windir + "\Fonts\" + $FontFile.Name
+				$regPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
+				$regValue = $FontFile.Name
+				$regName = $FontName
+		} else {
+				# Check whether Windows Version is high enough to support per-user font installation without admin rights
+				$winMajorVersion = [Environment]::OSVersion.Version.Major
+				$winBuild = [Environment]::OSVersion.Version.Build
+				If ( -not (($winMajorVersion -ge 10) -and ($winBuild -ge 17044))) {
+					throw "At least Windows 10 Build 17044 is required for local user installation. You have Win $winMajorVersion Build $winBuild."
+				}
+				$fontTarget = $env:localappdata + "\Microsoft\Windows\Fonts\" + $FontFile.Name
+				$regPath = "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
+				$regValue = $fontTarget
+				$regName = $FontName
+		}
 
-		$Copy = $true
+		$CopyFailed = $true
 		Write-Host ("Copying $($FontFile.Name).....") -NoNewline
 		Copy-Item -Path $fontFile.FullName -Destination ($fontTarget) -Force
 		# Test if font is copied over
@@ -60,7 +77,7 @@ function Install-Font {
 		} else {
 			Write-Host ('Failed to copy file') -ForegroundColor Red
 		}
-		$Copy = $false
+		$CopyFailed = $false
 
 		# Create Registry item for font
 		Write-Host ("Adding $FontName to the registry.....") -NoNewline
@@ -69,22 +86,22 @@ function Install-Font {
 		}
 		New-ItemProperty -Path $regPath -Name $regName -Value $regValue -PropertyType string -Force -ErrorAction SilentlyContinue| Out-Null
 
-		$AddKey = $true
+		$AddKeyFailed = $true
 		If ((Get-ItemPropertyValue -Name $regName -Path $regPath) -eq $regValue) {
 			Write-Host ('Success') -ForegroundColor Yellow
 		} else {
 			Write-Host ('Failed to set registry key') -ForegroundColor Red
 		}
-		$AddKey = $false
+		$AddKeyFailed = $false
 		
 	} catch {
-		If ($Copy -eq $true) {
+		If ($CopyFailed -eq $true) {
 			Write-Host ('Font file copy Failed') -ForegroundColor Red
-			$Copy = $false
+			$CopyFailed = $false
 		}
-		If ($AddKey -eq $true) {
+		If ($AddKeyFailed -eq $true) {
 			Write-Host ('Registry Key Creation Failed') -ForegroundColor Red
-			$AddKey = $false
+			$AddKeyFailed = $false
 		}
 		write-warning $_.exception.message
 	}
@@ -95,5 +112,5 @@ function Install-Font {
 foreach ($FontItem in (Get-ChildItem -Path $PSScriptRoot | Where-Object {
 			($_.Name -like '*.ttf') -or ($_.Name -like '*.OTF')
 		})) {
-	Install-Font -FontFile $FontItem
+	Install-Font -FontFile $FontItem $true
 }
