@@ -62,10 +62,12 @@ function Install-Font {
 				If ( -not (($winMajorVersion -ge 10) -and ($winBuild -ge 17044))) {
 					throw "At least Windows 10 Build 17044 is required for local user installation. You have Win $winMajorVersion Build $winBuild."
 				}
-				$fontTarget = $env:localappdata + "\Microsoft\Windows\Fonts\" + $FontFile.Name
+				$fontTarget = $env:localappdata + "\Microsoft\Windows\Fonts\" 
 				$regPath = "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
-				$regValue = $fontTarget
+				$regValue = $fontTarget + $FontFile.Name
 				$regName = $FontName
+				# The Fonts directory does not always exist on a per user level. Create it.
+				New-Item -ItemType Directory -Force -Path "$fontTarget"
 		}
 
 		$CopyFailed = $true
@@ -112,5 +114,5 @@ function Install-Font {
 foreach ($FontItem in (Get-ChildItem -Path $PSScriptRoot | Where-Object {
 			($_.Name -like '*.ttf') -or ($_.Name -like '*.OTF')
 		})) {
-	Install-Font -FontFile $FontItem $true
+	Install-Font -FontFile $FontItem $false
 }
