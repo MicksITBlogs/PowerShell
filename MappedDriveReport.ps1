@@ -49,7 +49,7 @@ param
 )
 
 function Get-CurrentDate {
-<#
+	<#
 	.SYNOPSIS  
 		Get the current date and return formatted value  
 
@@ -76,7 +76,7 @@ function Get-CurrentDate {
 }
 
 function Get-MappedDrives {
-<#
+	<#
 	.SYNOPSIS
 		Get list of Mapped Drives
 	
@@ -112,8 +112,8 @@ function Get-MappedDrives {
 		#Get list of mapped drives
 		[array]$MappedDrives = (Get-ChildItem REGISTRY::$MappedDrives | Select-Object name).name
 		foreach ($MappedDrive in $MappedDrives) {
-			$DriveLetter = (Get-ItemProperty -Path REGISTRY::$MappedDrive | select PSChildName).PSChildName
-			$DrivePath = (Get-ItemProperty -Path REGISTRY::$MappedDrive | select RemotePath).RemotePath
+			$DriveLetter = (Get-ItemProperty -Path REGISTRY::$MappedDrive | Select-Object PSChildName).PSChildName
+			$DrivePath = (Get-ItemProperty -Path REGISTRY::$MappedDrive | Select-Object RemotePath).RemotePath
 			If ($DrivePath -notin $UNCExclusions) {
 				$Drives = New-Object System.Management.Automation.PSObject
 				$Drives | Add-Member -MemberType NoteProperty -Name ComputerName -Value $env:COMPUTERNAME
@@ -128,7 +128,7 @@ function Get-MappedDrives {
 }
 
 function Get-RelativePath {
-<#
+	<#
 	.SYNOPSIS
 		Get the relative path
 	
@@ -147,7 +147,7 @@ function Get-RelativePath {
 }
 
 function Invoke-SCCMHardwareInventory {
-<#
+	<#
 	.SYNOPSIS
 		Initiate a Hardware Inventory
 	
@@ -178,13 +178,14 @@ function New-WMIClass {
 	)
 	
 	$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
-	If ($WMITest -ne $null) {
+	If ($null -ne $WMITest) {
 		$Output = "Deleting " + $WMITest.__CLASS[0] + " WMI class....."
 		Remove-WmiObject $Class
 		$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
-		If ($WMITest -eq $null) {
+		If ($null -eq $WMITest) {
 			$Output += "success"
-		} else {
+		}
+		else {
 			$Output += "Failed"
 			Exit 1
 		}
@@ -208,9 +209,10 @@ function New-WMIClass {
 	$newClass.Properties["Username"].Qualifiers.Add("read", $true)
 	$newClass.Put() | Out-Null
 	$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
-	If ($WMITest -eq $null) {
+	If ($null -eq $WMITest) {
 		$Output += "success"
-	} else {
+	}
+ else {
 		$Output += "Failed"
 		Exit 1
 	}
@@ -218,7 +220,7 @@ function New-WMIClass {
 }
 
 function New-WMIInstance {
-<#
+	<#
 	.SYNOPSIS
 		Write new instance
 	
@@ -253,7 +255,7 @@ function New-WMIInstance {
 }
 
 function Start-ConfigurationManagerClientScan {
-<#  
+	<#  
 	.SYNOPSIS  
 		Initiate Configuration Manager Client Scan  
 
@@ -279,7 +281,7 @@ function Start-ConfigurationManagerClientScan {
 	[Void]$SMSwmi.TriggerSchedule($Action)
 }
 
-cls
+Clear-Host
 #Get list of mapped drives for each user
 $UserMappedDrives = Get-MappedDrives
 #Write output to a text file if -OutputFile is specified
@@ -291,7 +293,8 @@ If ($OutputFile.IsPresent) {
 		}
 		#Write list of mapped drives to the specified text file.
 		[string]$OutputFile = [string]$TextFileLocation + $env:COMPUTERNAME + ".txt"
-	} else {
+	}
+ else {
 		#Get the relative path this script was executed from
 		$RelativePath = Get-RelativePath
 		$OutputFile = $RelativePath + $env:COMPUTERNAME + ".txt"
@@ -299,7 +302,7 @@ If ($OutputFile.IsPresent) {
 	If ((Test-Path $OutputFile) -eq $true) {
 		Remove-Item $OutputFile -Force
 	}
-	If (($UserMappedDrives -ne $null) -and ($UserMappedDrives -ne "")) {
+	If (($null -ne $UserMappedDrives) -and ($UserMappedDrives -ne "")) {
 		$UserMappedDrives | Format-Table -AutoSize | Out-File $OutputFile -Width 255
 	}
 }
@@ -307,7 +310,7 @@ If ($SCCMReporting.IsPresent) {
 	#Create the new WMI class to write the output data to
 	New-WMIClass -Class "Mapped_Drives"
 	#Write the output data as an instance to the WMI class
-	If ($UserMappedDrives -ne $null) {
+	If ($null -ne $UserMappedDrives) {
 		New-WMIInstance -MappedDrives $UserMappedDrives -Class "Mapped_Drives"
 	}
 	#Invoke a hardware inventory to send the data to SCCM
