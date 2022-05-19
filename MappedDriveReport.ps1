@@ -199,13 +199,13 @@ function New-WMIClass {
 	$newClass.Properties["ComputerName"].Qualifiers.Add("key", $true)
 	$newClass.Properties["ComputerName"].Qualifiers.Add("read", $true)
 	$newClass.Properties.Add("DriveLetter", [System.Management.CimType]::String, $false)
-	$newClass.Properties["DriveLetter"].Qualifiers.Add("key", $false)
+	$newClass.Properties["DriveLetter"].Qualifiers.Add("key", $true)
 	$newClass.Properties["DriveLetter"].Qualifiers.Add("read", $true)
 	$newClass.Properties.Add("DrivePath", [System.Management.CimType]::String, $false)
 	$newClass.Properties["DrivePath"].Qualifiers.Add("key", $false)
 	$newClass.Properties["DrivePath"].Qualifiers.Add("read", $true)
 	$newClass.Properties.Add("Username", [System.Management.CimType]::String, $false)
-	$newClass.Properties["Username"].Qualifiers.Add("key", $false)
+	$newClass.Properties["Username"].Qualifiers.Add("key", $true)
 	$newClass.Properties["Username"].Qualifiers.Add("read", $true)
 	$newClass.Put() | Out-Null
 	$WMITest = Get-WmiObject $Class -ErrorAction SilentlyContinue
