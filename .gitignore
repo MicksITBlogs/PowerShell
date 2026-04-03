@@ -4,3 +4,12 @@ BIOSVerifier.TempPoint.ps1
 DellBIOSVerifier.TempPoint.ps1
 InstallPowerShellGallery.TempPoint.ps1
 UninstallMSIByGUID.TempPoint.ps1
+
+# Common local and generated files
+*.log
+*.tmp
+*.bak
+*.old
+*.orig
+Thumbs.db
+Desktop.ini
