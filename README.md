@@ -110,262 +110,262 @@ For detailed metadata including admin requirements, external dependencies, Power
 
 | Script | Description |
 |---|---|
-| 2013RevitBuildingPremiumUninstaller.ps1 | Remove Autodesk Revit 2013 suite components using msiexec product codes |
-| 2014AutodeskUninstaller.ps1 | Remove Autodesk 2014 related software by product GUID |
-| ActivateOfficeWindows.ps1 | Activate Microsoft Office and Windows licenses online using provided product keys |
-| AdobeReaderAutomaticUpdate.ps1 | Disable Adobe Reader automatic updates by setting iCheck registry values |
-| ApplicationUninstallScript.ps1 | Uninstall applications using their WMI Product GUIDs via msiexec |
-| AutodeskBDSUninstaller.ps1 | Uninstall multiple Autodesk BDS and Visual C++ redistributable packages using product GUIDs |
-| DisableWindowsMediaCenter.ps1 | Disable Windows Media Center and create an uninstall entry in Add/Remove Programs |
-| InstallAcrobat.ps1 | Install Adobe Acrobat from the script directory |
-| InstallChrome.ps1 | Uninstall old Chrome and install current package |
-| InstallDotNet47.ps1 | Install .NET Framework 4.7 |
-| InstallEndPoint_build.ps1 | Install the endpoint protection security agent during golden image generation |
-| InstallFirefox.ps1 | Install Mozilla Firefox |
-| InstallFlash.ps1 | Uninstall old Adobe Flash Player versions and install the current version |
-| InstallFonts.ps1 | Install OpenType and TrueType fonts from the same directory as the script |
-| InstallJava.ps1 | Install Java package |
-| InstallOnlineUpdates.ps1 | Install EXE and MSU updates found in the script directory |
-| InstallPowerShellGallery.ps1 | Install prerequisites and package providers for accessing the PowerShell Gallery |
-| InstallReader.ps1 | Install Adobe Reader |
-| Invoke-MSI.ps1 | Wrapper for MSI install or uninstall execution via msiexec |
-| OfficeUpdater.ps1 | Keep an Office Updates folder populated with the latest SCCM-downloaded updates |
-| PingInstall.ps1 | Kill Office processes, uninstall old Ping versions, and install new Ping timekeeping software |
-| PingUninstall.ps1 | Kill Office processes and uninstall old versions of Ping timekeeping software |
-| Revit2013Hotfix.ps1 | Replace Revit 2013 DLL files with hotfix versions for 64-bit systems |
-| Uninstall-InnoSetup.ps1 | Uninstall applications that were installed using the Inno Setup installer |
-| UninstallChrome.ps1 | Remove Google Chrome |
-| UninstallFirefox.ps1 | Remove Mozilla Firefox |
-| UninstallJava.ps1 | Remove Java package |
-| UninstallMSIByName.ps1 | Uninstall MSI application by product name |
-| UninstallMSIbyGUID.ps1 | Uninstall MSI application by product GUID |
-| UninstallQuicktime.ps1 | Uninstall Apple QuickTime |
+| [2013RevitBuildingPremiumUninstaller.ps1](2013RevitBuildingPremiumUninstaller.ps1) | Remove Autodesk Revit 2013 suite components using msiexec product codes |
+| [2014AutodeskUninstaller.ps1](2014AutodeskUninstaller.ps1) | Remove Autodesk 2014 related software by product GUID |
+| [ActivateOfficeWindows.ps1](ActivateOfficeWindows.ps1) | Activate Microsoft Office and Windows licenses online using provided product keys |
+| [AdobeReaderAutomaticUpdate.ps1](AdobeReaderAutomaticUpdate.ps1) | Disable Adobe Reader automatic updates by setting iCheck registry values |
+| [ApplicationUninstallScript.ps1](ApplicationUninstallScript.ps1) | Uninstall applications using their WMI Product GUIDs via msiexec |
+| [AutodeskBDSUninstaller.ps1](AutodeskBDSUninstaller.ps1) | Uninstall multiple Autodesk BDS and Visual C++ redistributable packages using product GUIDs |
+| [DisableWindowsMediaCenter.ps1](DisableWindowsMediaCenter.ps1) | Disable Windows Media Center and create an uninstall entry in Add/Remove Programs |
+| [InstallAcrobat.ps1](InstallAcrobat.ps1) | Install Adobe Acrobat from the script directory |
+| [InstallChrome.ps1](InstallChrome.ps1) | Uninstall old Chrome and install current package |
+| [InstallDotNet47.ps1](InstallDotNet47.ps1) | Install .NET Framework 4.7 |
+| [InstallEndPoint_build.ps1](InstallEndPoint_build.ps1) | Install the endpoint protection security agent during golden image generation |
+| [InstallFirefox.ps1](InstallFirefox.ps1) | Install Mozilla Firefox |
+| [InstallFlash.ps1](InstallFlash.ps1) | Uninstall old Adobe Flash Player versions and install the current version |
+| [InstallFonts.ps1](InstallFonts.ps1) | Install OpenType and TrueType fonts from the same directory as the script |
+| [InstallJava.ps1](InstallJava.ps1) | Install Java package |
+| [InstallOnlineUpdates.ps1](InstallOnlineUpdates.ps1) | Install EXE and MSU updates found in the script directory |
+| [InstallPowerShellGallery.ps1](InstallPowerShellGallery.ps1) | Install prerequisites and package providers for accessing the PowerShell Gallery |
+| [InstallReader.ps1](InstallReader.ps1) | Install Adobe Reader |
+| [Invoke-MSI.ps1](Invoke-MSI.ps1) | Wrapper for MSI install or uninstall execution via msiexec |
+| [OfficeUpdater.ps1](OfficeUpdater.ps1) | Keep an Office Updates folder populated with the latest SCCM-downloaded updates |
+| [PingInstall.ps1](PingInstall.ps1) | Kill Office processes, uninstall old Ping versions, and install new Ping timekeeping software |
+| [PingUninstall.ps1](PingUninstall.ps1) | Kill Office processes and uninstall old versions of Ping timekeeping software |
+| [Revit2013Hotfix.ps1](Revit2013Hotfix.ps1) | Replace Revit 2013 DLL files with hotfix versions for 64-bit systems |
+| [Uninstall-InnoSetup.ps1](Uninstall-InnoSetup.ps1) | Uninstall applications that were installed using the Inno Setup installer |
+| [UninstallChrome.ps1](UninstallChrome.ps1) | Remove Google Chrome |
+| [UninstallFirefox.ps1](UninstallFirefox.ps1) | Remove Mozilla Firefox |
+| [UninstallJava.ps1](UninstallJava.ps1) | Remove Java package |
+| [UninstallMSIByName.ps1](UninstallMSIByName.ps1) | Uninstall MSI application by product name |
+| [UninstallMSIbyGUID.ps1](UninstallMSIbyGUID.ps1) | Uninstall MSI application by product GUID |
+| [UninstallQuicktime.ps1](UninstallQuicktime.ps1) | Uninstall Apple QuickTime |
 
 ### BitLocker and TPM
 
 | Script | Description |
 |---|---|
-| BackupBitlockerRecoverykey.ps1 | Clean stale AD recovery entries and back up the current BitLocker recovery key |
-| BitlockerEncryptionReporting.ps1 | Query the ConfigMgr SQL database and report machines not encrypted with BitLocker |
-| BitlockerRecoveryKey.ps1 | Back up BitLocker recovery keys to Active Directory, SCCM, or a network share |
-| BitlockerRecoveryPasswordADBackupCleanup.ps1 | Remove outdated AD recovery entries and back up the current BitLocker key |
-| BitlockerSAK_CheckTPM.ps1 | Validate TPM state and BitLocker encryption status |
-| BitlockerSystem.ps1 | Wait for BitLocker encryption to begin and monitor progress until completion |
-| ClearTPM.ps1 | Clear TPM state |
-| EnableBitlocker.ps1 | Enable BitLocker on an endpoint |
-| InitializeTPM.ps1 | Initialize TPM |
-| MissingBitlockerKeys.ps1 | Report systems with no BitLocker key backup in Active Directory |
-| RetrieveBitlockerRecoveryKey.ps1 | Retrieve recovery key data from AD and compare to local BitLocker state |
-| TurnOnTPM.ps1 | Enable TPM functionality |
+| [BackupBitlockerRecoverykey.ps1](BackupBitlockerRecoverykey.ps1) | Clean stale AD recovery entries and back up the current BitLocker recovery key |
+| [BitlockerEncryptionReporting.ps1](BitlockerEncryptionReporting.ps1) | Query the ConfigMgr SQL database and report machines not encrypted with BitLocker |
+| [BitlockerRecoveryKey.ps1](BitlockerRecoveryKey.ps1) | Back up BitLocker recovery keys to Active Directory, SCCM, or a network share |
+| [BitlockerRecoveryPasswordADBackupCleanup.ps1](BitlockerRecoveryPasswordADBackupCleanup.ps1) | Remove outdated AD recovery entries and back up the current BitLocker key |
+| [BitlockerSAK_CheckTPM.ps1](BitlockerSAK_CheckTPM.ps1) | Validate TPM state and BitLocker encryption status |
+| [BitlockerSystem.ps1](BitlockerSystem.ps1) | Wait for BitLocker encryption to begin and monitor progress until completion |
+| [ClearTPM.ps1](ClearTPM.ps1) | Clear TPM state |
+| [EnableBitlocker.ps1](EnableBitlocker.ps1) | Enable BitLocker on an endpoint |
+| [InitializeTPM.ps1](InitializeTPM.ps1) | Initialize TPM |
+| [MissingBitlockerKeys.ps1](MissingBitlockerKeys.ps1) | Report systems with no BitLocker key backup in Active Directory |
+| [RetrieveBitlockerRecoveryKey.ps1](RetrieveBitlockerRecoveryKey.ps1) | Retrieve recovery key data from AD and compare to local BitLocker state |
+| [TurnOnTPM.ps1](TurnOnTPM.ps1) | Enable TPM functionality |
 
 ### BIOS and Vendor Tools
 
 | Script | Description |
 |---|---|
-| BIOSSettings.ps1 | Install CCTK and configure Dell BIOS settings |
-| ClearDellBIOSPassword.ps1 | Clear Dell BIOS password |
-| DCSU.ps1 | Run Dell Command software update workflow |
-| DellBIOSDriverUpdate.ps1 | Update Dell BIOS and related drivers |
-| DellBIOSReportingTool.ps1 | Report BIOS settings or version information on Dell hardware |
-| DellBIOSUpdater.ps1 | Update Dell BIOS |
-| DellBIOSVerifier.ps1 | Verify a BIOS update succeeded by comparing installed version to expected version |
-| DellCommandUpdate.ps1 | Apply Dell BIOS, driver, and app updates using Dell Command Update |
-| DellDriverUpdate.ps1 | Apply Dell driver updates |
-| PPI.ps1 | Configure TPM Physical Presence Interface settings on Dell systems via BIOS |
-| SetDellBIOSPassword.ps1 | Set Dell BIOS password |
-| UpdateBIOSWinPE.ps1 | Copy Dell Command Update to WinPE and apply BIOS updates from XML configuration |
-| UpdateDriversBIOS.ps1 | Combined BIOS and driver update workflow |
-| WakeOnLAN.ps1 | Configure Wake-On-LAN BIOS setting to LanOnly using Dell BIOS Provider |
-| WOL.ps1 | Configure Wake-On-LAN in BIOS on Dell systems via DellBIOSProvider module |
-| ZTIDellDriverUpdate.ps1 | Run Dell Command Update up to five times via MDT task sequence to install drivers with reboots |
+| [BIOSSettings.ps1](BIOSSettings.ps1) | Install CCTK and configure Dell BIOS settings |
+| [ClearDellBIOSPassword.ps1](ClearDellBIOSPassword.ps1) | Clear Dell BIOS password |
+| [DCSU.ps1](DCSU.ps1) | Run Dell Command software update workflow |
+| [DellBIOSDriverUpdate.ps1](DellBIOSDriverUpdate.ps1) | Update Dell BIOS and related drivers |
+| [DellBIOSReportingTool.ps1](DellBIOSReportingTool.ps1) | Report BIOS settings or version information on Dell hardware |
+| [DellBIOSUpdater.ps1](DellBIOSUpdater.ps1) | Update Dell BIOS |
+| [DellBIOSVerifier.ps1](DellBIOSVerifier.ps1) | Verify a BIOS update succeeded by comparing installed version to expected version |
+| [DellCommandUpdate.ps1](DellCommandUpdate.ps1) | Apply Dell BIOS, driver, and app updates using Dell Command Update |
+| [DellDriverUpdate.ps1](DellDriverUpdate.ps1) | Apply Dell driver updates |
+| [PPI.ps1](PPI.ps1) | Configure TPM Physical Presence Interface settings on Dell systems via BIOS |
+| [SetDellBIOSPassword.ps1](SetDellBIOSPassword.ps1) | Set Dell BIOS password |
+| [UpdateBIOSWinPE.ps1](UpdateBIOSWinPE.ps1) | Copy Dell Command Update to WinPE and apply BIOS updates from XML configuration |
+| [UpdateDriversBIOS.ps1](UpdateDriversBIOS.ps1) | Combined BIOS and driver update workflow |
+| [WakeOnLAN.ps1](WakeOnLAN.ps1) | Configure Wake-On-LAN BIOS setting to LanOnly using Dell BIOS Provider |
+| [WOL.ps1](WOL.ps1) | Configure Wake-On-LAN in BIOS on Dell systems via DellBIOSProvider module |
+| [ZTIDellDriverUpdate.ps1](ZTIDellDriverUpdate.ps1) | Run Dell Command Update up to five times via MDT task sequence to install drivers with reboots |
 
 ### ConfigMgr and Endpoint Management
 
 | Script | Description |
 |---|---|
-| ConfigMgrRebootReport.ps1 | Report pending reboot information in ConfigMgr context |
-| ConfigMgrSQLFirewallSettings.ps1 | Configure SQL firewall settings for ConfigMgr |
-| ConfigMgrUpgrade.ps1 | ConfigMgr environment upgrade helper |
-| DPCleanup.ps1 | Remove ConfigMgr Distribution Point remnants from a server after DP deletion |
-| ImportSCCMModule.ps1 | Discover and import the SCCM module from the server |
-| InactiveSCCMSystemsReport.ps1 | Query SCCM for inactive systems and search Active Directory for last logon dates |
-| InstallConfigMgrModule.ps1 | Copy and install the ConfigurationManager module locally from a UNC source |
-| InstallSCCMClient_Standalone.ps1 | Standalone SCCM client install workflow |
-| LicensedSoftwareVerification.ps1 | Compare SCCM inventory against a collection to verify licensed software on systems |
-| MECMADCleanup.ps1 | Clean up stale AD device entries connected to MECM workflows |
-| MSIAnalyzer.ps1 | Uninstall previous SCCM client versions and install a new client version |
-| PowerShellSCCMConnect1.ps1 | Demonstrate connecting to SCCM and retrieving all systems |
-| RebootManagement.ps1 | Query SCCM SQL for systems not rebooted in the specified number of days and deploy reboot package |
-| SCCMActions.ps1 | Trigger SCCM client actions |
-| SCCMADCleanup.ps1 | Clean up AD records with SCCM context |
-| SCCMADReport.ps1 | Report on SCCM and AD system relationships |
-| SCCMBootImage.ps1 | Boot image related ConfigMgr tasking |
-| SCCMClientInstaller.ps1 | Install SCCM client using management point, FSP, site code, and client path |
-| SCCMDuplicateCleanup.ps1 | Query SCCM for duplicate systems and remove them from the database |
-| SCCMHardwareInventory.ps1 | Trigger or verify SCCM hardware inventory |
-| SoftwareUpdateGroupCreator.ps1 | Build ConfigMgr software update groups |
-| ValidateSystems.ps1 | Validate system existence across Active Directory, SCCM, and antivirus |
-| VMWareConfigMgr.ps1 | Query VMware for VMs, verify them in ConfigMgr, and add to distribution point collections |
-| ZTIConditionalReboot.ps1 | Check four reboot flag indicators and trigger a reboot if any are set |
-| ZTIWindowsUpdates.ps1 | Install latest Windows updates via PSWindowsUpdate with SCCM task sequence integration |
+| [ConfigMgrRebootReport.ps1](ConfigMgrRebootReport.ps1) | Report pending reboot information in ConfigMgr context |
+| [ConfigMgrSQLFirewallSettings.ps1](ConfigMgrSQLFirewallSettings.ps1) | Configure SQL firewall settings for ConfigMgr |
+| [ConfigMgrUpgrade.ps1](ConfigMgrUpgrade.ps1) | ConfigMgr environment upgrade helper |
+| [DPCleanup.ps1](DPCleanup.ps1) | Remove ConfigMgr Distribution Point remnants from a server after DP deletion |
+| [ImportSCCMModule.ps1](ImportSCCMModule.ps1) | Discover and import the SCCM module from the server |
+| [InactiveSCCMSystemsReport.ps1](InactiveSCCMSystemsReport.ps1) | Query SCCM for inactive systems and search Active Directory for last logon dates |
+| [InstallConfigMgrModule.ps1](InstallConfigMgrModule.ps1) | Copy and install the ConfigurationManager module locally from a UNC source |
+| [InstallSCCMClient_Standalone.ps1](InstallSCCMClient_Standalone.ps1) | Standalone SCCM client install workflow |
+| [LicensedSoftwareVerification.ps1](LicensedSoftwareVerification.ps1) | Compare SCCM inventory against a collection to verify licensed software on systems |
+| [MECMADCleanup.ps1](MECMADCleanup.ps1) | Clean up stale AD device entries connected to MECM workflows |
+| [MSIAnalyzer.ps1](MSIAnalyzer.ps1) | Uninstall previous SCCM client versions and install a new client version |
+| [PowerShellSCCMConnect1.ps1](PowerShellSCCMConnect1.ps1) | Demonstrate connecting to SCCM and retrieving all systems |
+| [RebootManagement.ps1](RebootManagement.ps1) | Query SCCM SQL for systems not rebooted in the specified number of days and deploy reboot package |
+| [SCCMActions.ps1](SCCMActions.ps1) | Trigger SCCM client actions |
+| [SCCMADCleanup.ps1](SCCMADCleanup.ps1) | Clean up AD records with SCCM context |
+| [SCCMADReport.ps1](SCCMADReport.ps1) | Report on SCCM and AD system relationships |
+| [SCCMBootImage.ps1](SCCMBootImage.ps1) | Boot image related ConfigMgr tasking |
+| [SCCMClientInstaller.ps1](SCCMClientInstaller.ps1) | Install SCCM client using management point, FSP, site code, and client path |
+| [SCCMDuplicateCleanup.ps1](SCCMDuplicateCleanup.ps1) | Query SCCM for duplicate systems and remove them from the database |
+| [SCCMHardwareInventory.ps1](SCCMHardwareInventory.ps1) | Trigger or verify SCCM hardware inventory |
+| [SoftwareUpdateGroupCreator.ps1](SoftwareUpdateGroupCreator.ps1) | Build ConfigMgr software update groups |
+| [ValidateSystems.ps1](ValidateSystems.ps1) | Validate system existence across Active Directory, SCCM, and antivirus |
+| [VMWareConfigMgr.ps1](VMWareConfigMgr.ps1) | Query VMware for VMs, verify them in ConfigMgr, and add to distribution point collections |
+| [ZTIConditionalReboot.ps1](ZTIConditionalReboot.ps1) | Check four reboot flag indicators and trigger a reboot if any are set |
+| [ZTIWindowsUpdates.ps1](ZTIWindowsUpdates.ps1) | Install latest Windows updates via PSWindowsUpdate with SCCM task sequence integration |
 
 ### Reporting and Inventory
 
 | Script | Description |
 |---|---|
-| AntiVirusScan.ps1 | Initiate a full or quick antimalware scan and log the result to Windows event viewer |
-| AntiVirusScanEmail.ps1 | Run antivirus scans and email a report of the scan completion status |
-| AppChecker.ps1 | Check if a specified application appears in Programs and Features and log the result |
-| ApplicationList.ps1 | Output a list of installed applications |
-| ApplicationVirusDetectionMethod.ps1 | Detect infections by comparing last antimalware scan timestamp to last infection timestamp in event logs |
-| ApplicationVirusDetectionMethodEmail.ps1 | Detect infections by comparing scan and infection timestamps and email results |
-| DefaultPrinterReport.ps1 | Retrieve all user profiles and report their default printer to a CSV file |
-| ExchangeModeReporting.ps1 | Analyze Exchange RPC logs to report which users are in cached or online mode |
-| FindRegistryUninstall.ps1 | Retrieve x86 and x64 uninstall registry keys for a specified application |
-| GetDefaultPrinter.ps1 | Retrieve the default printer and write it to a text file in the user AppData folder |
-| GetFileProperties.ps1 | Extract file metadata properties using Shell.Application COM object |
-| GetPrinterList.ps1 | Generate a report of all configured printers including the default printer |
-| GetSoftwareNameGUID.ps1 | List installed software names and their uninstall GUIDs from the registry |
-| HWInventory.ps1 | Gather hardware inventory details via WMI and CIM |
-| InstalledApplications.ps1 | Enumerate installed applications via registry or WMI |
-| LastReboot.ps1 | Query Windows servers for last reboot time and generate a CSV report |
-| LastRebootTime.ps1 | Report last system reboot or shutdown time from event logs and publish to WMI |
-| LocalAdministratorsReport.ps1 | Report local administrator group membership |
-| LocalAdministratorsReporting.ps1 | Expanded local admin reporting using SCCM and remote registry |
-| LogonTimes.ps1 | Query event logs for user logon times and generate CSV or TXT reports by logon type |
-| MappedDriveReport.ps1 | Scan user profiles for mapped drives and report to WMI and text files |
-| MaxResolution.ps1 | Retrieve maximum monitor resolution by reading monitor driver INF files |
-| MDTBuildReportingTool.ps1 | Send email notifications about MDT build status and duration to IT staff |
-| MicrosoftSpectrePatchCompatibility.ps1 | Check if the system processor is compatible with Spectre and Meltdown security patches |
-| MSPInfo.ps1 | Extract metadata information from MSP patch files |
-| PendingRebootReporting.ps1 | Report pending reboot status |
-| ProfileSizeReporting.ps1 | Report user profile sizes |
-| QueryEventViewerLogs.ps1 | Query event viewer logs for specific messages and report matching systems to a centralized file |
-| RebootReporting.ps1 | Reboot reporting with SCCM server queries |
-| SMARTReporting.ps1 | Report storage SMART state via WMI storage classes |
-| SQLBackupVerification.ps1 | Verify SQL backup jobs or outputs |
-| SystemInformationWMI.ps1 | Collect system information via WMI |
-| TrustedSitesReport.ps1 | Report browser trusted sites from registry |
-| UpdateList.ps1 | Extract KB article numbers of newly installed updates from MDT BDD.log |
-| WhosLoggedOn.ps1 | Scan systems for currently logged on and logged off users using PsLoggedon.exe |
-| WindowsUpdatesReport.ps1 | Report Windows Update status |
-| ZertoUnprotectedSystems.ps1 | Report systems not protected in Zerto, excluding desktop operating systems |
+| [AntiVirusScan.ps1](AntiVirusScan.ps1) | Initiate a full or quick antimalware scan and log the result to Windows event viewer |
+| [AntiVirusScanEmail.ps1](AntiVirusScanEmail.ps1) | Run antivirus scans and email a report of the scan completion status |
+| [AppChecker.ps1](AppChecker.ps1) | Check if a specified application appears in Programs and Features and log the result |
+| [ApplicationList.ps1](ApplicationList.ps1) | Output a list of installed applications |
+| [ApplicationVirusDetectionMethod.ps1](ApplicationVirusDetectionMethod.ps1) | Detect infections by comparing last antimalware scan timestamp to last infection timestamp in event logs |
+| [ApplicationVirusDetectionMethodEmail.ps1](ApplicationVirusDetectionMethodEmail.ps1) | Detect infections by comparing scan and infection timestamps and email results |
+| [DefaultPrinterReport.ps1](DefaultPrinterReport.ps1) | Retrieve all user profiles and report their default printer to a CSV file |
+| [ExchangeModeReporting.ps1](ExchangeModeReporting.ps1) | Analyze Exchange RPC logs to report which users are in cached or online mode |
+| [FindRegistryUninstall.ps1](FindRegistryUninstall.ps1) | Retrieve x86 and x64 uninstall registry keys for a specified application |
+| [GetDefaultPrinter.ps1](GetDefaultPrinter.ps1) | Retrieve the default printer and write it to a text file in the user AppData folder |
+| [GetFileProperties.ps1](GetFileProperties.ps1) | Extract file metadata properties using Shell.Application COM object |
+| [GetPrinterList.ps1](GetPrinterList.ps1) | Generate a report of all configured printers including the default printer |
+| [GetSoftwareNameGUID.ps1](GetSoftwareNameGUID.ps1) | List installed software names and their uninstall GUIDs from the registry |
+| [HWInventory.ps1](HWInventory.ps1) | Gather hardware inventory details via WMI and CIM |
+| [InstalledApplications.ps1](InstalledApplications.ps1) | Enumerate installed applications via registry or WMI |
+| [LastReboot.ps1](LastReboot.ps1) | Query Windows servers for last reboot time and generate a CSV report |
+| [LastRebootTime.ps1](LastRebootTime.ps1) | Report last system reboot or shutdown time from event logs and publish to WMI |
+| [LocalAdministratorsReport.ps1](LocalAdministratorsReport.ps1) | Report local administrator group membership |
+| [LocalAdministratorsReporting.ps1](LocalAdministratorsReporting.ps1) | Expanded local admin reporting using SCCM and remote registry |
+| [LogonTimes.ps1](LogonTimes.ps1) | Query event logs for user logon times and generate CSV or TXT reports by logon type |
+| [MappedDriveReport.ps1](MappedDriveReport.ps1) | Scan user profiles for mapped drives and report to WMI and text files |
+| [MaxResolution.ps1](MaxResolution.ps1) | Retrieve maximum monitor resolution by reading monitor driver INF files |
+| [MDTBuildReportingTool.ps1](MDTBuildReportingTool.ps1) | Send email notifications about MDT build status and duration to IT staff |
+| [MicrosoftSpectrePatchCompatibility.ps1](MicrosoftSpectrePatchCompatibility.ps1) | Check if the system processor is compatible with Spectre and Meltdown security patches |
+| [MSPInfo.ps1](MSPInfo.ps1) | Extract metadata information from MSP patch files |
+| [PendingRebootReporting.ps1](PendingRebootReporting.ps1) | Report pending reboot status |
+| [ProfileSizeReporting.ps1](ProfileSizeReporting.ps1) | Report user profile sizes |
+| [QueryEventViewerLogs.ps1](QueryEventViewerLogs.ps1) | Query event viewer logs for specific messages and report matching systems to a centralized file |
+| [RebootReporting.ps1](RebootReporting.ps1) | Reboot reporting with SCCM server queries |
+| [SMARTReporting.ps1](SMARTReporting.ps1) | Report storage SMART state via WMI storage classes |
+| [SQLBackupVerification.ps1](SQLBackupVerification.ps1) | Verify SQL backup jobs or outputs |
+| [SystemInformationWMI.ps1](SystemInformationWMI.ps1) | Collect system information via WMI |
+| [TrustedSitesReport.ps1](TrustedSitesReport.ps1) | Report browser trusted sites from registry |
+| [UpdateList.ps1](UpdateList.ps1) | Extract KB article numbers of newly installed updates from MDT BDD.log |
+| [WhosLoggedOn.ps1](WhosLoggedOn.ps1) | Scan systems for currently logged on and logged off users using PsLoggedon.exe |
+| [WindowsUpdatesReport.ps1](WindowsUpdatesReport.ps1) | Report Windows Update status |
+| [ZertoUnprotectedSystems.ps1](ZertoUnprotectedSystems.ps1) | Report systems not protected in Zerto, excluding desktop operating systems |
 
 ### Active Directory and User Management
 
 | Script | Description |
 |---|---|
-| ADGroupUserInfo.ps1 | Query AD group membership and last modified data |
-| AddUserToLocalAdminGroup.ps1 | Add a user account to the local Administrators group |
-| AdministratorReport.ps1 | Report AD admin memberships and account age |
-| EmailEnvVariable.ps1 | Read AD mail attribute and write it to an environment variable |
-| GetLocalAdministrators.ps1 | Enumerate local administrator group members |
-| ImportADExtensions.ps1 | Import AD extension attributes from source records |
-| InstallActiveDirectoryModule.ps1 | Copy the ActiveDirectory module into WinPE or a target image context |
-| LocalAdmins.ps1 | Local administrator enumeration and management helper |
-| LocalAdministrators.ps1 | Report local administrator group members that are not in an exclusion list |
-| LocalAdministratorsDetection.ps1 | Detection method that verifies local administrators comply with exclusion policy |
-| LogonLogoff.ps1 | Report computer name, username, IP address, and logon timestamp to a CSV file |
-| MoveComputerToOU.ps1 | Move computer objects to a target organizational unit |
-| SCCMADCleanup.ps1 | Clean up AD records with SCCM context |
+| [ADGroupUserInfo.ps1](ADGroupUserInfo.ps1) | Query AD group membership and last modified data |
+| [AddUserToLocalAdminGroup.ps1](AddUserToLocalAdminGroup.ps1) | Add a user account to the local Administrators group |
+| [AdministratorReport.ps1](AdministratorReport.ps1) | Report AD admin memberships and account age |
+| [EmailEnvVariable.ps1](EmailEnvVariable.ps1) | Read AD mail attribute and write it to an environment variable |
+| [GetLocalAdministrators.ps1](GetLocalAdministrators.ps1) | Enumerate local administrator group members |
+| [ImportADExtensions.ps1](ImportADExtensions.ps1) | Import AD extension attributes from source records |
+| [InstallActiveDirectoryModule.ps1](InstallActiveDirectoryModule.ps1) | Copy the ActiveDirectory module into WinPE or a target image context |
+| [LocalAdmins.ps1](LocalAdmins.ps1) | Local administrator enumeration and management helper |
+| [LocalAdministrators.ps1](LocalAdministrators.ps1) | Report local administrator group members that are not in an exclusion list |
+| [LocalAdministratorsDetection.ps1](LocalAdministratorsDetection.ps1) | Detection method that verifies local administrators comply with exclusion policy |
+| [LogonLogoff.ps1](LogonLogoff.ps1) | Report computer name, username, IP address, and logon timestamp to a CSV file |
+| [MoveComputerToOU.ps1](MoveComputerToOU.ps1) | Move computer objects to a target organizational unit |
+| [SCCMADCleanup.ps1](SCCMADCleanup.ps1) | Clean up AD records with SCCM context |
 
 ### Device and Operating System Utilities
 
 | Script | Description |
 |---|---|
-| ActiveSetup.ps1 | Generate active setup registry entries for deploying applications that execute once per user logon |
-| AddRemoveProgramEntries.ps1 | Enumerate uninstall registry entries |
-| AddRemovePrograms.ps1 | Interactive Add or Remove Programs inventory from registry using Windows Forms |
-| ApplicationShortcuts.ps1 | Add or remove applications from the Windows taskbar based on a text file list |
-| BootEnvironment.ps1 | Determine if the system is BIOS or UEFI by reading the setupact.log file |
-| CachedMode.ps1 | Report whether Microsoft Outlook is running in cached exchange mode or online mode |
-| CiscoJabberChat.ps1 | Disable Cisco Jabber chat history by setting the database file to read-only |
-| CiscoJabberChatCleanup.ps1 | Delete Cisco Jabber chat history files and folders with optional secure deletion |
-| ClearPrintSpooler.ps1 | Stop the print spooler service, clear the queue, and restart it |
-| ConfigurePowerShell.ps1 | Configure PowerShell execution policy and install necessary modules |
-| CopyProfile.ps1 | Robocopy user profile data from one machine or profile path to another |
-| Get-MSUFileInfo.ps1 | Extract metadata from MSU Windows update files |
-| IEActiveX.ps1 | Enable or disable Internet Explorer ActiveX controls by GUID |
-| LGPO.ps1 | Apply Local Group Policy Objects from registry.pol files using ImportRegPol.exe |
-| MandatoryReboot.ps1 | Enforce mandatory system reboots after a configurable threshold of days since last reboot |
-| MandatoryRebootCustomDetection.ps1 | Custom detection method for mandatory reboot SCCM application deployments |
-| MouseMover.ps1 | Move the mouse cursor periodically to prevent screen saver and machine lockout |
-| NICAdvancedProperties.ps1 | Manage NIC advanced driver settings |
-| NICPowerManagement.ps1 | Update NIC power management settings |
-| OnlineUpdate.ps1 | Install Windows updates |
-| OperatingSystemDetection.ps1 | Detect the OS version and create a named marker file for task sequence use |
-| Permissioning.ps1 | Replicate file and folder permissions from source to destination using robocopy |
-| PrinterInstaller.ps1 | Allow non-admin users to install printers from specified print servers via Software Center |
-| RemoveOutlookDataFiles.ps1 | Remove Outlook data folders by deleting specific registry binary key values |
-| ResetNetworkAdaptor.ps1 | Reset the network adapter stack |
-| RestartComputer.ps1 | Restart an endpoint |
-| RobocopyProfile.ps1 | Robocopy user profiles from remote machines to a specified UNC path with optional exclusions |
-| SecureBoot.ps1 | Query or validate secure boot status |
-| SecureScreenStopper.ps1 | Launch MouseMover to keep the screen active, then kill related processes when done |
-| Set-PowerScheme.ps1 | Set the active Windows power profile |
-| TakeOwnership.ps1 | Grant ownership of files and folders to the current user |
-| UninstallBuilt-InApps.ps1 | Remove built-in Windows apps using AppX provisioning commands |
-| UninstallPrinters.ps1 | Remove all configured printers from a system |
-| UpdateWIM.ps1 | Mount a WIM image, apply updates, and unmount it |
-| VerifyBuild.ps1 | Check for required installed applications during build verification using WMI |
-| VerifyGUID.ps1 | Verify application GUIDs during build validation |
-| VerifyReboot.ps1 | Verify a system rebooted by checking for NotRebooted.log and renaming it with a timestamp |
-| VerifyWindowsFeature.ps1 | Validate Windows feature state and optionally invoke DISM |
-| Windows10AppDeprovisioning.ps1 | Deprovision Windows 10 built-in apps |
-| WindowsFeatures.ps1 | Enable or disable Windows features via DISM or optional feature tooling |
+| [ActiveSetup.ps1](ActiveSetup.ps1) | Generate active setup registry entries for deploying applications that execute once per user logon |
+| [AddRemoveProgramEntries.ps1](AddRemoveProgramEntries.ps1) | Enumerate uninstall registry entries |
+| [AddRemovePrograms.ps1](AddRemovePrograms.ps1) | Interactive Add or Remove Programs inventory from registry using Windows Forms |
+| [ApplicationShortcuts.ps1](ApplicationShortcuts.ps1) | Add or remove applications from the Windows taskbar based on a text file list |
+| [BootEnvironment.ps1](BootEnvironment.ps1) | Determine if the system is BIOS or UEFI by reading the setupact.log file |
+| [CachedMode.ps1](CachedMode.ps1) | Report whether Microsoft Outlook is running in cached exchange mode or online mode |
+| [CiscoJabberChat.ps1](CiscoJabberChat.ps1) | Disable Cisco Jabber chat history by setting the database file to read-only |
+| [CiscoJabberChatCleanup.ps1](CiscoJabberChatCleanup.ps1) | Delete Cisco Jabber chat history files and folders with optional secure deletion |
+| [ClearPrintSpooler.ps1](ClearPrintSpooler.ps1) | Stop the print spooler service, clear the queue, and restart it |
+| [ConfigurePowerShell.ps1](ConfigurePowerShell.ps1) | Configure PowerShell execution policy and install necessary modules |
+| [CopyProfile.ps1](CopyProfile.ps1) | Robocopy user profile data from one machine or profile path to another |
+| [Get-MSUFileInfo.ps1](Get-MSUFileInfo.ps1) | Extract metadata from MSU Windows update files |
+| [IEActiveX.ps1](IEActiveX.ps1) | Enable or disable Internet Explorer ActiveX controls by GUID |
+| [LGPO.ps1](LGPO.ps1) | Apply Local Group Policy Objects from registry.pol files using ImportRegPol.exe |
+| [MandatoryReboot.ps1](MandatoryReboot.ps1) | Enforce mandatory system reboots after a configurable threshold of days since last reboot |
+| [MandatoryRebootCustomDetection.ps1](MandatoryRebootCustomDetection.ps1) | Custom detection method for mandatory reboot SCCM application deployments |
+| [MouseMover.ps1](MouseMover.ps1) | Move the mouse cursor periodically to prevent screen saver and machine lockout |
+| [NICAdvancedProperties.ps1](NICAdvancedProperties.ps1) | Manage NIC advanced driver settings |
+| [NICPowerManagement.ps1](NICPowerManagement.ps1) | Update NIC power management settings |
+| [OnlineUpdate.ps1](OnlineUpdate.ps1) | Install Windows updates |
+| [OperatingSystemDetection.ps1](OperatingSystemDetection.ps1) | Detect the OS version and create a named marker file for task sequence use |
+| [Permissioning.ps1](Permissioning.ps1) | Replicate file and folder permissions from source to destination using robocopy |
+| [PrinterInstaller.ps1](PrinterInstaller.ps1) | Allow non-admin users to install printers from specified print servers via Software Center |
+| [RemoveOutlookDataFiles.ps1](RemoveOutlookDataFiles.ps1) | Remove Outlook data folders by deleting specific registry binary key values |
+| [ResetNetworkAdaptor.ps1](ResetNetworkAdaptor.ps1) | Reset the network adapter stack |
+| [RestartComputer.ps1](RestartComputer.ps1) | Restart an endpoint |
+| [RobocopyProfile.ps1](RobocopyProfile.ps1) | Robocopy user profiles from remote machines to a specified UNC path with optional exclusions |
+| [SecureBoot.ps1](SecureBoot.ps1) | Query or validate secure boot status |
+| [SecureScreenStopper.ps1](SecureScreenStopper.ps1) | Launch MouseMover to keep the screen active, then kill related processes when done |
+| [Set-PowerScheme.ps1](Set-PowerScheme.ps1) | Set the active Windows power profile |
+| [TakeOwnership.ps1](TakeOwnership.ps1) | Grant ownership of files and folders to the current user |
+| [UninstallBuilt-InApps.ps1](UninstallBuilt-InApps.ps1) | Remove built-in Windows apps using AppX provisioning commands |
+| [UninstallPrinters.ps1](UninstallPrinters.ps1) | Remove all configured printers from a system |
+| [UpdateWIM.ps1](UpdateWIM.ps1) | Mount a WIM image, apply updates, and unmount it |
+| [VerifyBuild.ps1](VerifyBuild.ps1) | Check for required installed applications during build verification using WMI |
+| [VerifyGUID.ps1](VerifyGUID.ps1) | Verify application GUIDs during build validation |
+| [VerifyReboot.ps1](VerifyReboot.ps1) | Verify a system rebooted by checking for NotRebooted.log and renaming it with a timestamp |
+| [VerifyWindowsFeature.ps1](VerifyWindowsFeature.ps1) | Validate Windows feature state and optionally invoke DISM |
+| [Windows10AppDeprovisioning.ps1](Windows10AppDeprovisioning.ps1) | Deprovision Windows 10 built-in apps |
+| [WindowsFeatures.ps1](WindowsFeatures.ps1) | Enable or disable Windows features via DISM or optional feature tooling |
 
 ### Security and Compliance
 
 | Script | Description |
 |---|---|
-| BootEnvironment.ps1 | Determine BIOS or UEFI boot mode for pre-deploy security checks |
-| MicrosoftSpectrePatchCompatibility.ps1 | Check processor compatibility with Spectre and Meltdown security patches |
-| SecureBoot.ps1 | Query or validate UEFI secure boot state |
+| [BootEnvironment.ps1](BootEnvironment.ps1) | Determine BIOS or UEFI boot mode for pre-deploy security checks |
+| [MicrosoftSpectrePatchCompatibility.ps1](MicrosoftSpectrePatchCompatibility.ps1) | Check processor compatibility with Spectre and Meltdown security patches |
+| [SecureBoot.ps1](SecureBoot.ps1) | Query or validate UEFI secure boot state |
 
 ### Utilities and GitHub
 
 | Script | Description |
 |---|---|
-| MouseMover.ps1 | Move the mouse cursor on a timer to prevent screen saver activation |
-| MSPInfo.ps1 | Extract metadata from MSP patch files |
-| Sync-GitHubRepos.ps1 | Clone missing GitHub repositories from a user account to a local directory |
+| [MouseMover.ps1](MouseMover.ps1) | Move the mouse cursor on a timer to prevent screen saver activation |
+| [MSPInfo.ps1](MSPInfo.ps1) | Extract metadata from MSP patch files |
+| [Sync-GitHubRepos.ps1](Sync-GitHubRepos.ps1) | Clone missing GitHub repositories from a user account to a local directory |
 
 ### Legacy VBScript
 
 | Script | Description |
 |---|---|
-| Bldg_Premium_Full.vbs | Legacy Autodesk Building Design Suite full install wrapper |
-| CreateUSB.vbs | Legacy USB creation automation |
-| EnableDisableOfflineFiles.vbs | Legacy toggle for Windows offline files feature |
-| FlashBIOS.vbs | Legacy BIOS flash execution wrapper |
-| InstallAutodeskRevit.vbs | Legacy Autodesk Revit installation automation |
-| InstallCCTK.vbs | Legacy Dell CCTK installation helper |
-| InstallCCTK_old.vbs | Older legacy Dell CCTK installation helper |
-| InstallFlash.vbs | Legacy Adobe Flash Player install wrapper |
-| InstallFonts.vbs | Legacy font installation script |
-| InstallOffice.vbs | Legacy Microsoft Office installation automation |
-| InstallOfficeUpdates.vbs | Legacy Office update install workflow |
-| InstallJava.vbs | Legacy Java install wrapper |
-| InstallQuickTime.vbs | Legacy Apple QuickTime install wrapper |
-| InstallReaderX.vbs | Legacy Adobe Reader X installer |
-| ListUpdates.vbs | Legacy installed updates listing helper |
-| LoggedOffSystems.vbs | Legacy scan for systems with no logged-on users |
-| ModifyINI.vbs | Legacy INI file modification helper |
-| MountWIM.vbs | Legacy WIM mount automation |
-| Pause.vbs | Legacy pause script for use in batch or deployment sequences |
-| ProfileRobocopy.vbs | Legacy profile copy automation using robocopy |
-| SetPageFileSize.vbs | Legacy page file size configuration script |
-| SMSCache.vbs | Legacy SCCM cache operation script |
-| Sysprep.vbs | Legacy sysprep launcher workflow |
-| TrimbleSketchupInstaller.vbs | Legacy Trimble SketchUp installation wrapper |
-| UninstallCS3.vbs | Legacy Adobe Creative Suite 3 uninstall automation |
-| UnmountWIM.vbs | Legacy WIM unmount automation |
-| USMT_Capture.vbs | Legacy USMT capture automation |
-| USMTCapture.vbs | Legacy USMT capture workflow |
-| USMT PC-to-PC.vbs | Legacy USMT PC-to-PC migration automation |
-| UserLoggedOn.vbs | Legacy check for currently logged-on user |
-| VerifyBaseBuild.vbs | Legacy base build verification helper |
-| ZTIBIOS.vbs | MDT-style BIOS automation for task sequences |
+| [Bldg_Premium_Full.vbs](Bldg_Premium_Full.vbs) | Legacy Autodesk Building Design Suite full install wrapper |
+| [CreateUSB.vbs](CreateUSB.vbs) | Legacy USB creation automation |
+| [EnableDisableOfflineFiles.vbs](EnableDisableOfflineFiles.vbs) | Legacy toggle for Windows offline files feature |
+| [FlashBIOS.vbs](FlashBIOS.vbs) | Legacy BIOS flash execution wrapper |
+| [InstallAutodeskRevit.vbs](InstallAutodeskRevit.vbs) | Legacy Autodesk Revit installation automation |
+| [InstallCCTK.vbs](InstallCCTK.vbs) | Legacy Dell CCTK installation helper |
+| [InstallCCTK_old.vbs](InstallCCTK_old.vbs) | Older legacy Dell CCTK installation helper |
+| [InstallFlash.vbs](InstallFlash.vbs) | Legacy Adobe Flash Player install wrapper |
+| [InstallFonts.vbs](InstallFonts.vbs) | Legacy font installation script |
+| [InstallOffice.vbs](InstallOffice.vbs) | Legacy Microsoft Office installation automation |
+| [InstallOfficeUpdates.vbs](InstallOfficeUpdates.vbs) | Legacy Office update install workflow |
+| [InstallJava.vbs](InstallJava.vbs) | Legacy Java install wrapper |
+| [InstallQuickTime.vbs](InstallQuickTime.vbs) | Legacy Apple QuickTime install wrapper |
+| [InstallReaderX.vbs](InstallReaderX.vbs) | Legacy Adobe Reader X installer |
+| [ListUpdates.vbs](ListUpdates.vbs) | Legacy installed updates listing helper |
+| [LoggedOffSystems.vbs](LoggedOffSystems.vbs) | Legacy scan for systems with no logged-on users |
+| [ModifyINI.vbs](ModifyINI.vbs) | Legacy INI file modification helper |
+| [MountWIM.vbs](MountWIM.vbs) | Legacy WIM mount automation |
+| [Pause.vbs](Pause.vbs) | Legacy pause script for use in batch or deployment sequences |
+| [ProfileRobocopy.vbs](ProfileRobocopy.vbs) | Legacy profile copy automation using robocopy |
+| [SetPageFileSize.vbs](SetPageFileSize.vbs) | Legacy page file size configuration script |
+| [SMSCache.vbs](SMSCache.vbs) | Legacy SCCM cache operation script |
+| [Sysprep.vbs](Sysprep.vbs) | Legacy sysprep launcher workflow |
+| [TrimbleSketchupInstaller.vbs](TrimbleSketchupInstaller.vbs) | Legacy Trimble SketchUp installation wrapper |
+| [UninstallCS3.vbs](UninstallCS3.vbs) | Legacy Adobe Creative Suite 3 uninstall automation |
+| [UnmountWIM.vbs](UnmountWIM.vbs) | Legacy WIM unmount automation |
+| [USMT_Capture.vbs](USMT_Capture.vbs) | Legacy USMT capture automation |
+| [USMTCapture.vbs](USMTCapture.vbs) | Legacy USMT capture workflow |
+| [USMT PC-to-PC.vbs](USMT%20PC-to-PC.vbs) | Legacy USMT PC-to-PC migration automation |
+| [UserLoggedOn.vbs](UserLoggedOn.vbs) | Legacy check for currently logged-on user |
+| [VerifyBaseBuild.vbs](VerifyBaseBuild.vbs) | Legacy base build verification helper |
+| [ZTIBIOS.vbs](ZTIBIOS.vbs) | MDT-style BIOS automation for task sequences |
 
 ## Requirements and Prerequisites
 
