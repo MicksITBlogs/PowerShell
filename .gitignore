@@ -5,6 +5,9 @@ DellBIOSVerifier.TempPoint.ps1
 InstallPowerShellGallery.TempPoint.ps1
 UninstallMSIByGUID.TempPoint.ps1
 
+# VS Code workspace file
+*.code-workspace
+
 # Common local and generated files
 *.log
 *.tmp
