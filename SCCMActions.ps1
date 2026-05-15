@@ -34,15 +34,8 @@ function Get-CurrentDate {
 	[CmdletBinding()][OutputType([string])]
 	param ()
 	
-	$CurrentDate = Get-Date
-	$CurrentDate = $CurrentDate.ToShortDateString()
-	$CurrentDate = $CurrentDate -replace "/", "-"
-	If ($CurrentDate[2] -ne "-") {
-		$CurrentDate = $CurrentDate.Insert(0, "0")
-	}
-	If ($CurrentDate[5] -ne "-") {
-		$CurrentDate = $CurrentDate.Insert(3, "0")
-	}
+	$CurrentDate = Get-Date -Format "MM-dd-yyyy"
+	
 	Return $CurrentDate
 }
 
